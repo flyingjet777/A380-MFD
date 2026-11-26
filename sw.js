@@ -1,4 +1,4 @@
-const CACHE_NAME = 'a380-mfd-v43';
+const CACHE_NAME = 'a380-mfd-v44';
 // 주의: app.js/index.css는 index.html의 ?v= 쿼리와 동일해야 프리캐시가 실제로 사용됨
 const ASSETS = [
   './index.html',
@@ -7,7 +7,7 @@ const ASSETS = [
   './xwind/index.html',
   './hot/index.html',
   './manifest.json',
-  './apple-touch-icon.png',
+  './apple-touch-icon.png?v=2',
   './icon-192.png',
   './icon-512.png',
   'https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Share+Tech+Mono&display=swap',
