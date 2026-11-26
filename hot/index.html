@@ -99,7 +99,9 @@ button:focus-visible, summary:focus-visible { outline: 2px solid var(--cyan); ou
 .k.slash { grid-column: 3; grid-row: 4; }
 
 /* reference panel under the unit */
-.ref { margin-top: 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font-size: 14px; line-height: 1.5; }
+/* A380-MFD: CDU 아래 설명 상자(결과 설명/표 원본/Cautions/Notes)는 숨김 (Captain, 2026-11-27). 계산은 그대로 */
+.ref { display: none !important; }
+.ref-orig { margin-top: 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font-size: 14px; line-height: 1.5; }
 .ref h2 { font-size: 15px; margin: 0 0 6px; color: var(--label); }
 .ref .warn { color: var(--amber); margin: 6px 0; }
 .ref .bad { color: var(--red); margin: 6px 0; }
