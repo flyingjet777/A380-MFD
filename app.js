@@ -4474,7 +4474,8 @@ const SECURITY_NOTES_DEFAULT_HTML = buildDefaultNotesHTML([
     '기내 거동 수상자, 의심스런 물건 발견시 즉시 기장에게 보고.',
     '',
     '- CKPT ENTRY PROCEDURE',
-    '조종실 앞 CLEAN ZONE 확보, INT 통화 후, CKPT DOOR ENTRY CODE (74#) INPUT.',
+    '조종실 앞 CLEAN ZONE 확보,',
+    'INT 통화 후, CKPT DOOR ENTRY CODE (74#) INPUT.',
     '',
     '- 2 CREWs RULE 강조 및 협조 요청',
     '',
@@ -4543,6 +4544,21 @@ const CREW_NOTES_DEFAULT_HTML = buildDefaultNotesHTML([
         const saved = cabinBriefingNotes.SECURITY;
         if (typeof saved === 'string' && saved.includes('CKPT DOOR ENTRY CODE (#)')) {
             cabinBriefingNotes.SECURITY = saved.replace('CKPT DOOR ENTRY CODE (#)', 'CKPT DOOR ENTRY CODE (74#)');
+            saveCabinBriefingNotes();
+        }
+        localStorage.setItem(FLAG, '1');
+    } catch (err) { /* ignore */ }
+})();
+
+// 저장된 SECURITY NOTES의 CLEAN ZONE 줄을 두 줄로 나눔 (기장님 지정 2026-11-27)
+(function splitCleanZoneLineOnce() {
+    const FLAG = 'a380mfd_clean_zone_split';
+    const OLD = '조종실 앞 CLEAN ZONE 확보, INT 통화 후, ';
+    try {
+        if (localStorage.getItem(FLAG)) return;
+        const saved = cabinBriefingNotes.SECURITY;
+        if (typeof saved === 'string' && saved.includes(OLD)) {
+            cabinBriefingNotes.SECURITY = saved.replace(OLD, '조종실 앞 CLEAN ZONE 확보,</div><div>INT 통화 후, ');
             saveCabinBriefingNotes();
         }
         localStorage.setItem(FLAG, '1');

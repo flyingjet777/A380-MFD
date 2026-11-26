@@ -1,9 +1,9 @@
-const CACHE_NAME = 'a380-mfd-v48';
+const CACHE_NAME = 'a380-mfd-v49';
 // 주의: app.js/index.css는 index.html의 ?v= 쿼리와 동일해야 프리캐시가 실제로 사용됨
 const ASSETS = [
   './index.html',
   './index.css?v=63',
-  './app.js?v=103',
+  './app.js?v=104',
   './xwind/index.html',
   './hot/index.html',
   './manifest.json',
