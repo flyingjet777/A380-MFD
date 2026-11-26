@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0c1a3a"/>
+      <stop offset="0.62" stop-color="#2b4f86"/>
+      <stop offset="1" stop-color="#f2a35e"/>
+    </linearGradient>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.55" stop-color="#e6ebf1"/>
+      <stop offset="1" stop-color="#a9b4c2"/>
+    </linearGradient>
+    <linearGradient id="wing" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#cfd6df"/>
+      <stop offset="1" stop-color="#8d98a8"/>
+    </linearGradient>
+    <linearGradient id="eng" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#eef2f6"/>
+      <stop offset="1" stop-color="#7d8898"/>
+    </linearGradient>
+  </defs>
+
+  <!-- dusk sky, full bleed (iOS rounds the corners) -->
+  <rect width="512" height="512" fill="url(#sky)"/>
+  <!-- stars -->
+  <g fill="#ffffff">
+    <circle cx="70" cy="70" r="2.2" opacity=".8"/><circle cx="150" cy="40" r="1.6" opacity=".6"/>
+    <circle cx="420" cy="60" r="2" opacity=".7"/><circle cx="360" cy="110" r="1.4" opacity=".5"/>
+    <circle cx="460" cy="150" r="1.6" opacity=".6"/><circle cx="40" cy="160" r="1.4" opacity=".5"/>
+  </g>
+  <!-- horizon cloud band -->
+  <g fill="#ffffff" opacity=".18">
+    <ellipse cx="120" cy="470" rx="160" ry="34"/>
+    <ellipse cx="400" cy="485" rx="180" ry="36"/>
+  </g>
+
+  <!-- aircraft, climbing slightly -->
+  <g transform="rotate(-9 256 270)">
+    <!-- far-side wing (behind fuselage) -->
+    <path d="M300 268 L230 214 L206 214 L250 268 Z" fill="#7e8a9b"/>
+    <!-- vertical stabilizer -->
+    <path d="M118 236 L66 128 L100 128 L178 236 Z" fill="url(#body)" stroke="#8d98a8" stroke-width="2"/>
+    <path d="M70 136 L98 136 L104 148 L76 148 Z" fill="#33b6f2"/>
+    <!-- horizontal stabilizer -->
+    <path d="M96 270 L40 296 L66 300 L140 276 Z" fill="url(#wing)"/>
+
+    <!-- fuselage: double-deck, tall cross-section, rounded nose -->
+    <path d="M84 250
+             C 92 236, 120 226, 160 222
+             L 380 214
+             C 430 212, 462 236, 470 262
+             C 474 280, 458 294, 430 298
+             L 170 304
+             C 128 304, 98 284, 84 262 Z"
+          fill="url(#body)" stroke="#8d98a8" stroke-width="2"/>
+    <!-- cheatline -->
+    <path d="M110 284 C 160 290, 300 290, 452 284" stroke="#33b6f2" stroke-width="5" fill="none" stroke-linecap="round"/>
+
+    <!-- windows: upper deck and main deck -->
+    <g fill="#1d2b44">
+      <rect x="182" y="232" width="7" height="8" rx="2"/><rect x="196" y="232" width="7" height="8" rx="2"/>
+      <rect x="210" y="231" width="7" height="8" rx="2"/><rect x="224" y="231" width="7" height="8" rx="2"/>
+      <rect x="238" y="230" width="7" height="8" rx="2"/><rect x="252" y="230" width="7" height="8" rx="2"/>
+      <rect x="266" y="229" width="7" height="8" rx="2"/><rect x="280" y="229" width="7" height="8" rx="2"/>
+      <rect x="294" y="228" width="7" height="8" rx="2"/><rect x="308" y="228" width="7" height="8" rx="2"/>
+      <rect x="322" y="227" width="7" height="8" rx="2"/><rect x="336" y="227" width="7" height="8" rx="2"/>
+      <rect x="350" y="226" width="7" height="8" rx="2"/><rect x="364" y="226" width="7" height="8" rx="2"/>
+      <rect x="378" y="226" width="7" height="8" rx="2"/><rect x="392" y="226" width="7" height="8" rx="2"/>
+
+      <rect x="150" y="258" width="7" height="8" rx="2"/><rect x="164" y="258" width="7" height="8" rx="2"/>
+      <rect x="178" y="258" width="7" height="8" rx="2"/><rect x="192" y="258" width="7" height="8" rx="2"/>
+      <rect x="206" y="257" width="7" height="8" rx="2"/><rect x="220" y="257" width="7" height="8" rx="2"/>
+      <rect x="320" y="254" width="7" height="8" rx="2"/><rect x="334" y="254" width="7" height="8" rx="2"/>
+      <rect x="348" y="253" width="7" height="8" rx="2"/><rect x="362" y="253" width="7" height="8" rx="2"/>
+      <rect x="376" y="253" width="7" height="8" rx="2"/><rect x="390" y="253" width="7" height="8" rx="2"/>
+      <rect x="404" y="253" width="7" height="8" rx="2"/>
+    </g>
+    <!-- cockpit windows (between the decks, A380 style) -->
+    <path d="M440 240 L458 246 L460 254 L438 252 Z" fill="#1d2b44"/>
+    <!-- doors -->
+    <g fill="none" stroke="#9aa6b5" stroke-width="2">
+      <rect x="418" y="250" width="10" height="20" rx="3"/>
+      <rect x="132" y="254" width="10" height="20" rx="3"/>
+    </g>
+
+    <!-- near-side wing, big and swept -->
+    <path d="M340 272 L250 272 L132 352 L170 354 Z" fill="url(#wing)" stroke="#6f7b8c" stroke-width="2"/>
+    <!-- wingtip fence -->
+    <path d="M132 352 L124 338 L134 340 L146 352 Z" fill="#33b6f2"/>
+    <!-- engines (two visible on the near wing) -->
+    <g stroke="#5f6a7a" stroke-width="2">
+      <path d="M270 296 h56 a14 14 0 0 1 0 28 h-56 a8 14 0 0 1 0 -28 Z" fill="url(#eng)"/>
+      <ellipse cx="327" cy="310" rx="6" ry="13" fill="#2a3240"/>
+      <path d="M198 318 h50 a13 13 0 0 1 0 26 h-50 a8 13 0 0 1 0 -26 Z" fill="url(#eng)"/>
+      <ellipse cx="249" cy="331" rx="6" ry="12" fill="#2a3240"/>
+    </g>
+  </g>
+</svg>
