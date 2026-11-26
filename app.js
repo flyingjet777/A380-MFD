@@ -4462,7 +4462,13 @@ const WX_NOTES_DEFAULT_HTML = buildDefaultNotesHTML([
 ]);
 
 // SECURITY NOTES 기본 문구 — 매 비행 동일, 사용자가 지우거나 고쳐 쓰면 그 내용이 저장됨
+const SECURITY_LEVEL_NOTE_LINES = [
+    '- 항공보안 등급 (FOM 12.2.19)',
+    '"평시" , "관심" , "주의" , "경계" , "심각"',
+    '',
+];
 const SECURITY_NOTES_DEFAULT_HTML = buildDefaultNotesHTML([
+    ...SECURITY_LEVEL_NOTE_LINES,
     '- SECURITY SEARCH',
     '보안등급(   )에 맞는 보안점검 실시, 비상벨 점검 요청 (5+4 / 9 ZONE)',
     '기내 거동 수상자, 의심스런 물건 발견시 즉시 기장에게 보고.',
@@ -4509,6 +4515,20 @@ const CREW_NOTES_DEFAULT_HTML = buildDefaultNotesHTML([
     '',
     '- KLAX, KJFK AIRPORT TAXING 중 유의사항',
 ]);
+
+// 이미 SECURITY NOTES를 고쳐 저장한 기기에도 항공보안 등급 문구를 한 번만 맨 위에 추가 (사용자 메모는 그대로 유지)
+(function addSecurityLevelNoteOnce() {
+    const FLAG = 'a380mfd_sec_level_note_added';
+    try {
+        if (localStorage.getItem(FLAG)) return;
+        const saved = cabinBriefingNotes.SECURITY;
+        if (typeof saved === 'string' && !saved.includes('항공보안 등급')) {
+            cabinBriefingNotes.SECURITY = buildDefaultNotesHTML(SECURITY_LEVEL_NOTE_LINES) + saved;
+            saveCabinBriefingNotes();
+        }
+        localStorage.setItem(FLAG, '1');
+    } catch (err) { /* localStorage 사용 불가 시 기본 문구만 사용 */ }
+})();
 
 function getCabinBriefingNotesHTML(tabKey, defaultHTML) {
     // 저장된 적이 있으면 빈 문자열('')이라도 그대로 존중 — ||를 쓰면 사용자가 지운 노트가 기본 문구로 부활함
