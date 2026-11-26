@@ -4824,7 +4824,7 @@ function fitCalcFrame(frame) {
         const st = doc.createElement('style');
         st.id = 'mfd-embed-style';
         st.textContent = `
-            body { padding: 4px 2px !important; }
+            body { padding: 4px 2px !important; place-items: start center !important; align-content: start !important; }
             .wrap { width: min(100%, calc((100vh - 8px) / 1.48)) !important; }
         `;
         doc.head.appendChild(st);
