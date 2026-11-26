@@ -4485,6 +4485,11 @@ const SECURITY_NOTES_DEFAULT_HTML = buildDefaultNotesHTML([
     'INT "EMER" PUSH (A380)',
 ]);
 
+// "2 CREWs RULE" 은 따옴표 포함 빨간색으로 강조 (기장님 지정 2026-11-27)
+const TWO_CREW_PLAIN = '- 2 CREWs RULE 강조 및 협조 요청';
+const TWO_CREW_HTML = '- <span style="color:var(--text-red);">"2 CREWs RULE"</span> 강조 및 협조 요청';
+const SECURITY_NOTES_DEFAULT_HTML_FINAL = SECURITY_NOTES_DEFAULT_HTML.replace(TWO_CREW_PLAIN, TWO_CREW_HTML);
+
 // EMERG PROC NOTES 기본 문구 — 매 비행 동일, 사용자가 지우거나 고쳐 쓰면 그 내용이 저장됨
 const EMERG_NOTES_DEFAULT_HTML = buildDefaultNotesHTML([
     '- RTO 직후',
@@ -4528,6 +4533,20 @@ const CREW_NOTES_DEFAULT_HTML = buildDefaultNotesHTML([
         }
         localStorage.setItem(FLAG, '1');
     } catch (err) { /* localStorage 사용 불가 시 기본 문구만 사용 */ }
+})();
+
+// 저장된 SECURITY NOTES에 예전 "2 CREWs RULE" 줄이 그대로 있으면 새 표기(따옴표 + 빨간색)로 한 번 교체
+(function updateTwoCrewLineOnce() {
+    const FLAG = 'a380mfd_two_crew_red';
+    try {
+        if (localStorage.getItem(FLAG)) return;
+        const saved = cabinBriefingNotes.SECURITY;
+        if (typeof saved === 'string' && saved.includes(TWO_CREW_PLAIN)) {
+            cabinBriefingNotes.SECURITY = saved.replace(TWO_CREW_PLAIN, TWO_CREW_HTML);
+            saveCabinBriefingNotes();
+        }
+        localStorage.setItem(FLAG, '1');
+    } catch (err) { /* ignore */ }
 })();
 
 function getCabinBriefingNotesHTML(tabKey, defaultHTML) {
@@ -4632,7 +4651,7 @@ function getCabinBriefingContentHTML() {
                 '• Sterile Cockpit: Below 10,000 feet',
                 '• Emergency Alert Signal (FOM S2.3)',
             ])}
-            ${getCabinBriefingNotesHTML('SECURITY', SECURITY_NOTES_DEFAULT_HTML)}
+            ${getCabinBriefingNotesHTML('SECURITY', SECURITY_NOTES_DEFAULT_HTML_FINAL)}
         `;
     }
     if (activeCabinBriefingTab === 'EMERG') {
