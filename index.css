@@ -51,7 +51,7 @@ body {
     padding: 10px;
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
     width: 580px;
-    height: 740px; 
+    height: var(--bezel-h, 740px); 
     position: relative;
     display: flex;
     flex-direction: column;
@@ -706,3 +706,7 @@ body {
     border-radius: 4px;
     background: #1c1e21;
 }
+
+/* X-WIND / FAA HOT 화면: MSG LIST 숨기고 계산기를 아래 끝까지 */
+body.calc-mode .footer-msg-list { display: none; }
+body.calc-mode .fms-content { height: auto; flex: 1 1 auto; }

@@ -4741,7 +4741,32 @@ function renderCalcPage(key) {
     clearCalcTabActive();
     const b = document.getElementById(tab.btn);
     if (b) b.classList.add('active');
+    document.body.classList.add('calc-mode');
     mainContent.innerHTML = `<iframe class="calc-frame" src="${tab.src}" title="${tab.title}"></iframe>`;
+    const frame = mainContent.querySelector('.calc-frame');
+    frame.addEventListener('load', () => fitCalcFrame(frame));
+}
+
+// 계산기 원본 파일은 그대로 두고, MFD 안에서 볼 때만 바깥 여백을 줄여 CDU를 최대한 크게 보여준다.
+function fitCalcFrame(frame) {
+    try {
+        const doc = frame.contentDocument;
+        if (!doc || doc.getElementById('mfd-embed-style')) return;
+        const st = doc.createElement('style');
+        st.id = 'mfd-embed-style';
+        st.textContent = `
+            body { padding: 4px 2px !important; }
+            .wrap { width: min(100%, calc((100vh - 8px) / 1.48)) !important; }
+        `;
+        doc.head.appendChild(st);
+    } catch (err) {
+        // 다른 출처에서 열린 경우 등: 원본 크기 그대로 표시
+    }
+}
+
+// X-WIND / FAA HOT 이외 화면으로 나가면 MSG LIST 다시 표시
+function exitCalcMode() {
+    document.body.classList.remove('calc-mode');
 }
 
 document.body.addEventListener('click', (e) => {
@@ -4759,6 +4784,7 @@ document.body.addEventListener('click', (e) => {
     // 다른 화면으로 가면 X-WIND / FAA HOT 강조 해제
     if (e.target.closest('#btn-init, #btn-data')) {
         clearCalcTabActive();
+        exitCalcMode();
     }
 
     // Top nav INIT button
@@ -5877,6 +5903,14 @@ function adjustBezelScale() {
         scale = minScale;
     }
     
+    // iPad 세로: 폭 기준으로 키운 뒤 남는 세로 공간까지 베젤을 늘려 화면을 채운다.
+    // 가로 모드는 기존처럼 740px 높이 고정.
+    let bezelH = bezelHeight;
+    if (!isLandscape) {
+        bezelH = Math.max(bezelHeight, Math.floor((winH - padding) / scale));
+    }
+    document.body.style.setProperty('--bezel-h', bezelH + 'px');
+
     document.body.style.setProperty('--scale', scale);
     syncMemoCanvasSize();
 }
