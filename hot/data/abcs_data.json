@@ -1,0 +1,1089 @@
+{
+ "std": [
+  {
+   "oat": "-3 °C and above",
+   "oatF": "27 °F and above",
+   "range": [
+    -3.0,
+    null
+   ],
+   "conc": "100/0",
+   "cells": {
+    "FZFG": [
+     "2:10",
+     "4:00"
+    ],
+    "SN_FZFG": [
+     "0:55",
+     "1:35"
+    ],
+    "VLSN": [
+     "3:00",
+     "3:00"
+    ],
+    "LSN": [
+     "2:05",
+     "3:00"
+    ],
+    "MSN": [
+     "1:15",
+     "2:05"
+    ],
+    "FZDZ": [
+     "1:50",
+     "2:00"
+    ],
+    "LFZRA": [
+     "1:05",
+     "2:00"
+    ],
+    "MSN_RA": [
+     "0:15",
+     "0:15"
+    ],
+    "RCSW": [
+     "0:25",
+     "2:00"
+    ]
+   }
+  },
+  {
+   "oat": "-3 °C and above",
+   "oatF": "27 °F and above",
+   "range": [
+    -3.0,
+    null
+   ],
+   "conc": "75/25",
+   "cells": {
+    "FZFG": [
+     "1:25",
+     "2:40"
+    ],
+    "SN_FZFG": [
+     "0:30",
+     "0:55"
+    ],
+    "VLSN": [
+     "2:05",
+     "2:25"
+    ],
+    "LSN": [
+     "1:15",
+     "2:05"
+    ],
+    "MSN": [
+     "0:45",
+     "1:15"
+    ],
+    "FZDZ": [
+     "1:00",
+     "1:20"
+    ],
+    "LFZRA": [
+     "0:30",
+     "0:50"
+    ],
+    "MSN_RA": [
+     "0:08",
+     "0:08"
+    ],
+    "RCSW": [
+     "0:10",
+     "1:20"
+    ]
+   }
+  },
+  {
+   "oat": "-3 °C and above",
+   "oatF": "27 °F and above",
+   "range": [
+    -3.0,
+    null
+   ],
+   "conc": "50/50",
+   "cells": {
+    "FZFG": [
+     "0:30",
+     "0:55"
+    ],
+    "SN_FZFG": [
+     "0:15",
+     "0:25"
+    ],
+    "VLSN": [
+     "1:00",
+     "1:10"
+    ],
+    "LSN": [
+     "0:30",
+     "1:00"
+    ],
+    "MSN": [
+     "0:15",
+     "0:30"
+    ],
+    "FZDZ": [
+     "0:15",
+     "0:40"
+    ],
+    "LFZRA": [
+     "0:15",
+     "0:20"
+    ]
+   }
+  },
+  {
+   "oat": "below -3 to -8 °C",
+   "oatF": "below 27 to 18 °F",
+   "range": [
+    -8.0,
+    -3.0
+   ],
+   "conc": "100/0",
+   "cells": {
+    "FZFG": [
+     "0:55",
+     "3:30"
+    ],
+    "SN_FZFG": [
+     "0:50",
+     "1:25"
+    ],
+    "VLSN": [
+     "3:00",
+     "3:00"
+    ],
+    "LSN": [
+     "1:50",
+     "3:00"
+    ],
+    "MSN": [
+     "1:05",
+     "1:50"
+    ],
+    "FZDZ": [
+     "0:25",
+     "1:35"
+    ],
+    "LFZRA": [
+     "0:20",
+     "0:30"
+    ]
+   }
+  },
+  {
+   "oat": "below -3 to -8 °C",
+   "oatF": "below 27 to 18 °F",
+   "range": [
+    -8.0,
+    -3.0
+   ],
+   "conc": "75/25",
+   "cells": {
+    "FZFG": [
+     "0:45",
+     "1:50"
+    ],
+    "SN_FZFG": [
+     "0:30",
+     "0:50"
+    ],
+    "VLSN": [
+     "1:50",
+     "2:10"
+    ],
+    "LSN": [
+     "1:05",
+     "1:50"
+    ],
+    "MSN": [
+     "0:40",
+     "1:05"
+    ],
+    "FZDZ": [
+     "0:20",
+     "1:10"
+    ],
+    "LFZRA": [
+     "0:15",
+     "0:25"
+    ]
+   }
+  },
+  {
+   "oat": "below -8 to -14 °C",
+   "oatF": "below 18 to 7 °F",
+   "range": [
+    -14.0,
+    -8.0
+   ],
+   "conc": "100/0",
+   "cells": {
+    "FZFG": [
+     "0:55",
+     "3:30"
+    ],
+    "SN_FZFG": [
+     "0:45",
+     "1:15"
+    ],
+    "VLSN": [
+     "2:55",
+     "3:00"
+    ],
+    "LSN": [
+     "1:45",
+     "2:55"
+    ],
+    "MSN": [
+     "1:00",
+     "1:45"
+    ],
+    "FZDZ": [
+     "0:25",
+     "1:35",
+     "10"
+    ],
+    "LFZRA": [
+     "0:20",
+     "0:30",
+     "10"
+    ]
+   }
+  },
+  {
+   "oat": "below -8 to -14 °C",
+   "oatF": "below 18 to 7 °F",
+   "range": [
+    -14.0,
+    -8.0
+   ],
+   "conc": "75/25",
+   "cells": {
+    "FZFG": [
+     "0:45",
+     "1:50"
+    ],
+    "SN_FZFG": [
+     "0:25",
+     "0:45"
+    ],
+    "VLSN": [
+     "1:45",
+     "2:00"
+    ],
+    "LSN": [
+     "1:00",
+     "1:45"
+    ],
+    "MSN": [
+     "0:35",
+     "1:00"
+    ],
+    "FZDZ": [
+     "0:20",
+     "1:10",
+     "10"
+    ],
+    "LFZRA": [
+     "0:15",
+     "0:25",
+     "10"
+    ]
+   }
+  },
+  {
+   "oat": "below -14 to -18 °C",
+   "oatF": "below 7 to 0 °F",
+   "range": [
+    -18.0,
+    -14.0
+   ],
+   "conc": "100/0",
+   "cells": {
+    "FZFG": [
+     "0:40",
+     "1:00"
+    ],
+    "SN_FZFG": [
+     "0:01",
+     "0:06"
+    ],
+    "VLSN": [
+     "0:30",
+     "0:45"
+    ],
+    "LSN": [
+     "0:09",
+     "0:30"
+    ],
+    "MSN": [
+     "0:02",
+     "0:09"
+    ]
+   }
+  },
+  {
+   "oat": "below -18 to -25 °C",
+   "oatF": "below 0 to -13 °F",
+   "range": [
+    -25.0,
+    -18.0
+   ],
+   "conc": "100/0",
+   "cells": {
+    "FZFG": [
+     "0:40",
+     "1:00"
+    ],
+    "SN_FZFG": [
+     "0:00",
+     "0:02"
+    ],
+    "VLSN": [
+     "0:10",
+     "0:20"
+    ],
+    "LSN": [
+     "0:03",
+     "0:10"
+    ],
+    "MSN": [
+     "0:01",
+     "0:03"
+    ]
+   }
+  },
+  {
+   "oat": "below -25 to -28 °C",
+   "oatF": "below -13 to -18 °F",
+   "range": [
+    -28.0,
+    -25.0
+   ],
+   "conc": "100/0",
+   "cells": {
+    "FZFG": [
+     "0:40",
+     "1:00"
+    ],
+    "SN_FZFG": [
+     "0:00",
+     "0:01"
+    ],
+    "VLSN": [
+     "0:07",
+     "0:10"
+    ],
+    "LSN": [
+     "0:02",
+     "0:07"
+    ],
+    "MSN": [
+     "0:00",
+     "0:02"
+    ]
+   }
+  }
+ ],
+ "adj": [
+  {
+   "oat": "-3 °C and above",
+   "oatF": "27 °F and above",
+   "range": [
+    -3.0,
+    null
+   ],
+   "conc": "100/0",
+   "cells": {
+    "FZFG": [
+     "1:39",
+     "3:02"
+    ],
+    "SN_FZFG": [
+     "0:42",
+     "1:12"
+    ],
+    "VLSN": [
+     "2:43",
+     "3:00"
+    ],
+    "LSN": [
+     "1:35",
+     "2:43"
+    ],
+    "MSN": [
+     "0:57",
+     "1:35"
+    ],
+    "FZDZ": [
+     "1:24",
+     "1:31"
+    ],
+    "LFZRA": [
+     "0:49",
+     "1:31"
+    ],
+    "MSN_RA": [
+     "0:11",
+     "0:11"
+    ],
+    "RCSW": [
+     "0:19",
+     "1:31"
+    ]
+   }
+  },
+  {
+   "oat": "-3 °C and above",
+   "oatF": "27 °F and above",
+   "range": [
+    -3.0,
+    null
+   ],
+   "conc": "75/25",
+   "cells": {
+    "FZFG": [
+     "1:05",
+     "2:02"
+    ],
+    "SN_FZFG": [
+     "0:23",
+     "0:42"
+    ],
+    "VLSN": [
+     "1:35",
+     "1:50"
+    ],
+    "LSN": [
+     "0:57",
+     "1:35"
+    ],
+    "MSN": [
+     "0:34",
+     "0:57"
+    ],
+    "FZDZ": [
+     "0:46",
+     "1:01"
+    ],
+    "LFZRA": [
+     "0:23",
+     "0:38"
+    ],
+    "MSN_RA": [
+     "0:06",
+     "0:06"
+    ],
+    "RCSW": [
+     "0:08",
+     "1:01"
+    ]
+   }
+  },
+  {
+   "oat": "-3 °C and above",
+   "oatF": "27 °F and above",
+   "range": [
+    -3.0,
+    null
+   ],
+   "conc": "50/50",
+   "cells": {
+    "FZFG": [
+     "0:23",
+     "0:42"
+    ],
+    "SN_FZFG": [
+     "0:11",
+     "0:19"
+    ],
+    "VLSN": [
+     "0:46",
+     "0:53"
+    ],
+    "LSN": [
+     "0:23",
+     "0:46"
+    ],
+    "MSN": [
+     "0:11",
+     "0:23"
+    ],
+    "FZDZ": [
+     "0:11",
+     "0:30"
+    ],
+    "LFZRA": [
+     "0:11",
+     "0:15"
+    ]
+   }
+  },
+  {
+   "oat": "below -3 to -8 °C",
+   "oatF": "below 27 to 18 °F",
+   "range": [
+    -8.0,
+    -3.0
+   ],
+   "conc": "100/0",
+   "cells": {
+    "FZFG": [
+     "0:42",
+     "2:40"
+    ],
+    "SN_FZFG": [
+     "0:38",
+     "1:05"
+    ],
+    "VLSN": [
+     "2:24",
+     "2:51"
+    ],
+    "LSN": [
+     "1:24",
+     "2:24"
+    ],
+    "MSN": [
+     "0:49",
+     "1:24"
+    ],
+    "FZDZ": [
+     "0:19",
+     "1:12"
+    ],
+    "LFZRA": [
+     "0:15",
+     "0:23"
+    ]
+   }
+  },
+  {
+   "oat": "below -3 to -8 °C",
+   "oatF": "below 27 to 18 °F",
+   "range": [
+    -8.0,
+    -3.0
+   ],
+   "conc": "75/25",
+   "cells": {
+    "FZFG": [
+     "0:34",
+     "1:24"
+    ],
+    "SN_FZFG": [
+     "0:23",
+     "0:38"
+    ],
+    "VLSN": [
+     "1:24",
+     "1:39"
+    ],
+    "LSN": [
+     "0:49",
+     "1:24"
+    ],
+    "MSN": [
+     "0:30",
+     "0:49"
+    ],
+    "FZDZ": [
+     "0:15",
+     "0:53"
+    ],
+    "LFZRA": [
+     "0:11",
+     "0:19"
+    ]
+   }
+  },
+  {
+   "oat": "below -8 to -14 °C",
+   "oatF": "below 18 to 7 °F",
+   "range": [
+    -14.0,
+    -8.0
+   ],
+   "conc": "100/0",
+   "cells": {
+    "FZFG": [
+     "0:42",
+     "2:40"
+    ],
+    "SN_FZFG": [
+     "0:34",
+     "0:57"
+    ],
+    "VLSN": [
+     "2:13",
+     "2:40"
+    ],
+    "LSN": [
+     "1:20",
+     "2:13"
+    ],
+    "MSN": [
+     "0:46",
+     "1:20"
+    ],
+    "FZDZ": [
+     "0:19",
+     "1:12",
+     "10"
+    ],
+    "LFZRA": [
+     "0:15",
+     "0:23",
+     "10"
+    ]
+   }
+  },
+  {
+   "oat": "below -8 to -14 °C",
+   "oatF": "below 18 to 7 °F",
+   "range": [
+    -14.0,
+    -8.0
+   ],
+   "conc": "75/25",
+   "cells": {
+    "FZFG": [
+     "0:34",
+     "1:24"
+    ],
+    "SN_FZFG": [
+     "0:19",
+     "0:34"
+    ],
+    "VLSN": [
+     "1:20",
+     "1:31"
+    ],
+    "LSN": [
+     "0:46",
+     "1:20"
+    ],
+    "MSN": [
+     "0:27",
+     "0:46"
+    ],
+    "FZDZ": [
+     "0:15",
+     "0:53",
+     "10"
+    ],
+    "LFZRA": [
+     "0:11",
+     "0:19",
+     "10"
+    ]
+   }
+  },
+  {
+   "oat": "below -14 to -18 °C",
+   "oatF": "below 7 to 0 °F",
+   "range": [
+    -18.0,
+    -14.0
+   ],
+   "conc": "100/0",
+   "cells": {
+    "FZFG": [
+     "0:30",
+     "0:46"
+    ],
+    "SN_FZFG": [
+     "0:01",
+     "0:05"
+    ],
+    "VLSN": [
+     "0:23",
+     "0:34"
+    ],
+    "LSN": [
+     "0:07",
+     "0:23"
+    ],
+    "MSN": [
+     "0:02",
+     "0:07"
+    ]
+   }
+  },
+  {
+   "oat": "below -18 to -25 °C",
+   "oatF": "below 0 to -13 °F",
+   "range": [
+    -25.0,
+    -18.0
+   ],
+   "conc": "100/0",
+   "cells": {
+    "FZFG": [
+     "0:30",
+     "0:46"
+    ],
+    "SN_FZFG": [
+     "0:00",
+     "0:02"
+    ],
+    "VLSN": [
+     "0:08",
+     "0:15"
+    ],
+    "LSN": [
+     "0:02",
+     "0:08"
+    ],
+    "MSN": [
+     "0:01",
+     "0:02"
+    ]
+   }
+  },
+  {
+   "oat": "below -25 to -28 °C",
+   "oatF": "below -13 to -18 °F",
+   "range": [
+    -28.0,
+    -25.0
+   ],
+   "conc": "100/0",
+   "cells": {
+    "FZFG": [
+     "0:30",
+     "0:46"
+    ],
+    "SN_FZFG": [
+     "0:00",
+     "0:01"
+    ],
+    "VLSN": [
+     "0:05",
+     "0:08"
+    ],
+    "LSN": [
+     "0:02",
+     "0:05"
+    ],
+    "MSN": [
+     "0:00",
+     "0:02"
+    ]
+   }
+  }
+ ],
+ "notes": {
+  "1": "Ensure that the lowest operational use temperature (LOUT) is respected. Consider use of Type I fluid when Type IV fluid cannot be used.",
+  "2": "Freezing mist is best confirmed by observation. It is never reported by METAR; however, it can occur when mist is present at 0 °C (32 °F) and below.",
+  "3": "Use freezing fog holdover times in conditions of ice crystals mixed with freezing fog or freezing mist.",
+  "4": "To determine snowfall intensity, the Snowfall Intensities as a Function of Prevailing Visibility table (Table 57) is required. No holdover times exist if the reported visibility correlates to a “heavy” precipitation intensity.",
+  "5": "Use snow holdover times in conditions of very light, light, or moderate snow mixed with ice crystals.",
+  "6": "Includes light, moderate and heavy freezing drizzle. Use light freezing rain holdover times if positive identification of freezing drizzle is not possible.",
+  "7": "These holdover times apply to conditions of “moderate” precipitation intensity. In cases of very light or light snow mixed with light rain or drizzle, use light freezing rain holdover times. The Snowfall Intensities as a Function of Prevailing Visibility table (Table 57) is required to confirm the precipitation intensity. No holdover times exist if the reported visibility correlates to a “heavy” precipitation intensity.",
+  "8": "No holdover time guidelines exist for this condition for 0 °C (32 °F) and below.",
+  "9": "Heavy snow, ice pellets, moderate and heavy freezing rain, small hail and hail (Table 56 provides allowance times for Type IV PG fluids in ice pellets and small hail).",
+  "10": "No holdover time guidelines exist for this condition below -10 °C (14 °F)."
+ },
+ "frost": [
+  {
+   "oat": "-1 °C and above",
+   "oatF": "30 °F and above",
+   "range": [
+    -1.0,
+    null
+   ],
+   "conc": "100/0",
+   "typeII": "8:00",
+   "typeIII": "2:00",
+   "typeIV": "12:00"
+  },
+  {
+   "oat": "-1 °C and above",
+   "oatF": "30 °F and above",
+   "range": [
+    -1.0,
+    null
+   ],
+   "conc": "75/25",
+   "typeII": "5:00",
+   "typeIII": "1:00",
+   "typeIV": "5:00"
+  },
+  {
+   "oat": "-1 °C and above",
+   "oatF": "30 °F and above",
+   "range": [
+    -1.0,
+    null
+   ],
+   "conc": "50/50",
+   "typeII": "2:00",
+   "typeIII": "0:30",
+   "typeIV": "3:00"
+  },
+  {
+   "oat": "below -1 to -3 °C",
+   "oatF": "below 30 to 27 °F",
+   "range": [
+    -3.0,
+    -1.0
+   ],
+   "conc": "100/0",
+   "typeII": "8:00",
+   "typeIII": "2:00",
+   "typeIV": "12:00"
+  },
+  {
+   "oat": "below -1 to -3 °C",
+   "oatF": "below 30 to 27 °F",
+   "range": [
+    -3.0,
+    -1.0
+   ],
+   "conc": "75/25",
+   "typeII": "5:00",
+   "typeIII": "1:00",
+   "typeIV": "5:00"
+  },
+  {
+   "oat": "below -1 to -3 °C",
+   "oatF": "below 30 to 27 °F",
+   "range": [
+    -3.0,
+    -1.0
+   ],
+   "conc": "50/50",
+   "typeII": "1:30",
+   "typeIII": "0:30",
+   "typeIV": "3:00"
+  },
+  {
+   "oat": "below -3 to -10 °C",
+   "oatF": "below 27 to 14 °F",
+   "range": [
+    -10.0,
+    -3.0
+   ],
+   "conc": "100/0",
+   "typeII": "8:00",
+   "typeIII": "2:00",
+   "typeIV": "10:00"
+  },
+  {
+   "oat": "below -3 to -10 °C",
+   "oatF": "below 27 to 14 °F",
+   "range": [
+    -10.0,
+    -3.0
+   ],
+   "conc": "75/25",
+   "typeII": "4:00",
+   "typeIII": "1:00",
+   "typeIV": "5:00"
+  },
+  {
+   "oat": "below -10 to -14 °C",
+   "oatF": "below 14 to 7 °F",
+   "range": [
+    -14.0,
+    -10.0
+   ],
+   "conc": "100/0",
+   "typeII": "6:00",
+   "typeIII": "2:00",
+   "typeIV": "6:00"
+  },
+  {
+   "oat": "below -10 to -14 °C",
+   "oatF": "below 14 to 7 °F",
+   "range": [
+    -14.0,
+    -10.0
+   ],
+   "conc": "75/25",
+   "typeII": "1:00",
+   "typeIII": "1:00",
+   "typeIV": "1:00"
+  },
+  {
+   "oat": "below -14 to -21 °C",
+   "oatF": "below 7 to -6 °F",
+   "range": [
+    -21.0,
+    -14.0
+   ],
+   "conc": "100/0",
+   "typeII": "3:00",
+   "typeIII": "2:00",
+   "typeIV": "6:00"
+  },
+  {
+   "oat": "below -21 to -25 °C",
+   "oatF": "below -6 to -13 °F",
+   "range": [
+    -25.0,
+    -21.0
+   ],
+   "conc": "100/0",
+   "typeII": "2:00",
+   "typeIII": "2:00",
+   "typeIV": "4:00"
+  }
+ ],
+ "frostAdj": [
+  {
+   "oat": "-1 °C and above",
+   "oatF": "30 °F and above",
+   "range": [
+    -1.0,
+    null
+   ],
+   "conc": "100/0",
+   "typeII": "6:05",
+   "typeIII": "1:31",
+   "typeIV": "9:07"
+  },
+  {
+   "oat": "-1 °C and above",
+   "oatF": "30 °F and above",
+   "range": [
+    -1.0,
+    null
+   ],
+   "conc": "75/25",
+   "typeII": "3:48",
+   "typeIII": "0:46",
+   "typeIV": "3:48"
+  },
+  {
+   "oat": "-1 °C and above",
+   "oatF": "30 °F and above",
+   "range": [
+    -1.0,
+    null
+   ],
+   "conc": "50/50",
+   "typeII": "1:31",
+   "typeIII": "0:23",
+   "typeIV": "2:17"
+  },
+  {
+   "oat": "below -1 to -3 °C",
+   "oatF": "below 30 to 27 °F",
+   "range": [
+    -3.0,
+    -1.0
+   ],
+   "conc": "100/0",
+   "typeII": "6:05",
+   "typeIII": "1:31",
+   "typeIV": "9:07"
+  },
+  {
+   "oat": "below -1 to -3 °C",
+   "oatF": "below 30 to 27 °F",
+   "range": [
+    -3.0,
+    -1.0
+   ],
+   "conc": "75/25",
+   "typeII": "3:48",
+   "typeIII": "0:46",
+   "typeIV": "3:48"
+  },
+  {
+   "oat": "below -1 to -3 °C",
+   "oatF": "below 30 to 27 °F",
+   "range": [
+    -3.0,
+    -1.0
+   ],
+   "conc": "50/50",
+   "typeII": "1:08",
+   "typeIII": "0:23",
+   "typeIV": "2:17"
+  },
+  {
+   "oat": "below -3 to -10 °C",
+   "oatF": "below 27 to 14 °F",
+   "range": [
+    -10.0,
+    -3.0
+   ],
+   "conc": "100/0",
+   "typeII": "6:05",
+   "typeIII": "1:31",
+   "typeIV": "7:36"
+  },
+  {
+   "oat": "below -3 to -10 °C",
+   "oatF": "below 27 to 14 °F",
+   "range": [
+    -10.0,
+    -3.0
+   ],
+   "conc": "75/25",
+   "typeII": "3:02",
+   "typeIII": "0:46",
+   "typeIV": "3:48"
+  },
+  {
+   "oat": "below -10 to -14 °C",
+   "oatF": "below 14 to 7 °F",
+   "range": [
+    -14.0,
+    -10.0
+   ],
+   "conc": "100/0",
+   "typeII": "4:34",
+   "typeIII": "1:31",
+   "typeIV": "4:34"
+  },
+  {
+   "oat": "below -10 to -14 °C",
+   "oatF": "below 14 to 7 °F",
+   "range": [
+    -14.0,
+    -10.0
+   ],
+   "conc": "75/25",
+   "typeII": "0:46",
+   "typeIII": "0:46",
+   "typeIV": "0:46"
+  },
+  {
+   "oat": "below -14 to -21 °C",
+   "oatF": "below 7 to -6 °F",
+   "range": [
+    -21.0,
+    -14.0
+   ],
+   "conc": "100/0",
+   "typeII": "2:17",
+   "typeIII": "1:31",
+   "typeIV": "4:34"
+  },
+  {
+   "oat": "below -21 to -25 °C",
+   "oatF": "below -6 to -13 °F",
+   "range": [
+    -25.0,
+    -21.0
+   ],
+   "conc": "100/0",
+   "typeII": "1:31",
+   "typeIII": "1:31",
+   "typeIV": "3:02"
+  }
+ ],
+ "frostNotes": {
+  "1": "To use the holdover times in this table, ensure that the fluid and dilution being used is listed in the List of Fluids Tested for Anti-Icing Performance and Aerodynamic Acceptance table (Table 58 - Table 61). Any restrictions on the use of the fluid have to be identified and applied.",
+  "2": "Type I Fluid / Water Mixture must be selected so that the freezing point of the mixture is at least 10 °C (18 °F) below outside air temperature.",
+  "3": "Ensure that the lowest operational use temperature (LOUT) is respected.",
+  "4": "Changes in outside air temperature (OAT) over the course of longer frost events can be significant; the appropriate holdover time to use is the one provided for the coldest OAT that has occurred in the time between the de/anti-icing fluid application and takeoff.",
+  "5": "To use the Type III fluid frost holdover times, the fluid brand being used must be known. AllClear AeroClear MAX must be applied unheated."
+ }
+}

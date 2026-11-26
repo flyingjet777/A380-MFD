@@ -1,0 +1,320 @@
+{
+ "cols": [
+  [
+   0,
+   null,
+   false
+  ],
+  [
+   -5,
+   0,
+   true
+  ],
+  [
+   -10,
+   -5,
+   false
+  ],
+  [
+   -16,
+   -10,
+   false
+  ],
+  [
+   -22,
+   -16,
+   false
+  ]
+ ],
+ "rows": [
+  {
+   "label": "Light Ice Pellets (or Small Hail) -PL",
+   "codes": [
+    "-PL"
+   ],
+   "std": [
+    50,
+    50,
+    30,
+    30,
+    20
+   ],
+   "adj": [
+    38,
+    38,
+    23,
+    23,
+    15
+   ]
+  },
+  {
+   "label": "Light Ice Pellets (or Small Hail) Mixed with Light Snow -PLSN, -SNPL",
+   "codes": [
+    "-PLSN",
+    "-SNPL"
+   ],
+   "std": [
+    40,
+    40,
+    15,
+    15,
+    null
+   ],
+   "adj": [
+    30,
+    30,
+    11,
+    11,
+    null
+   ]
+  },
+  {
+   "label": "Light Ice Pellets (or Small Hail) Mixed with Light Freezing Drizzle -PLFZDZ, -FZDZPL",
+   "codes": [
+    "-PLFZDZ",
+    "-FZDZPL"
+   ],
+   "std": [
+    null,
+    25,
+    10,
+    null,
+    null
+   ],
+   "adj": [
+    null,
+    19,
+    8,
+    null,
+    null
+   ]
+  },
+  {
+   "label": "Light Ice Pellets (or Small Hail) Mixed with Light Drizzle -PLDZ, -DZPL",
+   "codes": [
+    "-PLDZ",
+    "-DZPL"
+   ],
+   "std": [
+    25,
+    null,
+    null,
+    null,
+    null
+   ],
+   "adj": [
+    19,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "label": "Light Ice Pellets (or Small Hail) Mixed with Light Freezing Rain -PLFZRA, -FZRAPL",
+   "codes": [
+    "-PLFZRA",
+    "-FZRAPL"
+   ],
+   "std": [
+    null,
+    25,
+    10,
+    null,
+    null
+   ],
+   "adj": [
+    null,
+    19,
+    8,
+    null,
+    null
+   ]
+  },
+  {
+   "label": "Light Ice Pellets (or Small Hail) Mixed with Light Rain -PLRA, -RAPL",
+   "codes": [
+    "-PLRA",
+    "-RAPL"
+   ],
+   "std": [
+    25,
+    null,
+    null,
+    null,
+    null
+   ],
+   "adj": [
+    19,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "label": "Light Ice Pellets (or Small Hail) Mixed with Light Freezing Rain and Light Snow -PLFZRASN, -PLSNFZRA, -FZRAPLSN, -FZRASNPL, -SNPLFZRA, -SNFZRAPL",
+   "codes": [
+    "-PLFZRASN",
+    "-PLSNFZRA",
+    "-FZRAPLSN",
+    "-FZRASNPL",
+    "-SNPLFZRA",
+    "-SNFZRAPL"
+   ],
+   "std": [
+    null,
+    20,
+    null,
+    null,
+    null
+   ],
+   "adj": [
+    null,
+    15,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "label": "Light Ice Pellets (or Small Hail) Mixed with Light Rain and Light Snow -PLRASN, -PLSNRA, -RAPLSN, -RASNPL, -SNPLRA, -SNRAPL",
+   "codes": [
+    "-PLRASN",
+    "-PLSNRA",
+    "-RAPLSN",
+    "-RASNPL",
+    "-SNPLRA",
+    "-SNRAPL"
+   ],
+   "std": [
+    20,
+    null,
+    null,
+    null,
+    null
+   ],
+   "adj": [
+    15,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "label": "Moderate Ice Pellets (or Small Hail) PL",
+   "codes": [
+    "PL"
+   ],
+   "std": [
+    15,
+    15,
+    10,
+    10,
+    null
+   ],
+   "adj": [
+    11,
+    11,
+    8,
+    8,
+    null
+   ]
+  },
+  {
+   "label": "Moderate Ice Pellets (or Small Hail) Mixed with Moderate Snow PLSN, SNPL",
+   "codes": [
+    "PLSN",
+    "SNPL"
+   ],
+   "std": [
+    15,
+    15,
+    5,
+    5,
+    null
+   ],
+   "adj": [
+    11,
+    11,
+    4,
+    4,
+    null
+   ]
+  },
+  {
+   "label": "Moderate Ice Pellets (or Small Hail)Mixed with Light or Moderate Freezing Drizzle PLFZDZ, FZDZPL",
+   "codes": [
+    "PLFZDZ",
+    "FZDZPL"
+   ],
+   "std": [
+    null,
+    10,
+    7,
+    null,
+    null
+   ],
+   "adj": [
+    null,
+    8,
+    5,
+    null,
+    null
+   ]
+  },
+  {
+   "label": "Moderate Ice Pellets (or Small Hail) Mixed with Light or Moderate Drizzle PLDZ, DZPL",
+   "codes": [
+    "PLDZ",
+    "DZPL"
+   ],
+   "std": [
+    10,
+    null,
+    null,
+    null,
+    null
+   ],
+   "adj": [
+    8,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "label": "Moderate Ice Pellets (or Small Hail) Mixed with Moderate Rain PLRA, RAPL",
+   "codes": [
+    "PLRA",
+    "RAPL"
+   ],
+   "std": [
+    10,
+    null,
+    null,
+    null,
+    null
+   ],
+   "adj": [
+    8,
+    null,
+    null,
+    null,
+    null
+   ]
+  }
+ ],
+ "notes": {
+  "1": "These allowance times are for use with undiluted (100/0) PG-based fluids applied on aircraft with rotation speeds of 100 knots or greater. To use the allowance times in this table, ensure the fluid being used is listed in the Validation Status of Fluids for Use with Allowance Times (Table 53).",
+  "2": "Takeoff is allowed up to 90 minutes after start of fluid application if the precipitation stops at or before the allowance time expires and does not restart. Takeoff is not permitted if the OAT decreases during the 90 minutes in conditions of light ice pellets mixed with either: light freezing drizzle; light drizzle; light freezing rain; light rain; light rain and light snow; or light freezing rain and light snow, as well as in conditions of moderate ice pellets mixed with either: light or moderate freezing drizzle; light or moderate drizzle; or moderate rain.",
+  "3": "Ensure that the lowest operational use temperature (LOUT) is respected.",
+  "4": "No allowance times exist for PG-based fluids when used on aircraft with rotation speeds less than 100 knots.",
+  "5": "No allowance times exist for PG-based fluids when used on aircraft with rotation speeds less than 115 knots.",
+  "6": "Applicable METAR codes include only Ice Pellet conditions (i.e., PL). While allowance times can be used when Small Hail is reported instead of Ice Pellets, the corresponding METAR codes for Small Hail are not listed in the table.",
+  "7": "The reporting of Small Hail by METAR varies by country, which can result in different HOTs or allowance times when the same METAR code is used in different regions. For details, refer to the METAR Codes and Holdover or Allowance Times Used by Country table in the FAA Ground Deicing Program General Information Document.",
+  "8": "If the METAR does not report an intensity for small hail, use the “moderate ice pellets or small hail” allowance times. If the METAR reports an intensity with small hail, the condition with the equivalent intensity can be used, e.g., if light small hail is reported, the “light ice pellets” allowance times can be used. This also applies in mixed conditions, e.g., if light small hail mixed with light snow is reported, use the “light ice pellets mixed with light snow” allowance times."
+ }
+}

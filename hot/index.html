@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<title>26/27 FAA HOLDOVER TIME</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=B612+Mono:wght@400;700&family=B612:wght@700&display=swap">
+<style>
+/* Same MCDU unit as the A380 TO Xwind tool: 14-row character screen, LSK columns on its row grid, keypad below; reference panel under the unit */
+:root {
+  --bench: #1c1e21;
+  --bezel-hi: #b6b9bc; --bezel: #a1a4a7; --bezel-lo: #85888b;
+  --key: #1a1b1d; --key-edge: #3b3d41; --key-text: #f3f4f5; --fn-text: #f2a33a;
+  --screen: #040506; --label: #e8ebee; --cyan: #33b6f2; --green: #3fe06b;
+  --amber: #f2a33a; --red: #ff4d4d; --dim: #6d747b; --grid: #262c32;
+  --panel: #24272b; --line: #3a3e44; --foot: #9aa2aa;
+  --mono: "B612 Mono", ui-monospace, Menlo, Consolas, monospace;
+  --keyface: "B612", "Helvetica Neue", Arial, sans-serif;
+  --text: -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; min-width: 0; }
+html, body { background: var(--bench); color: var(--label); }
+body {
+  margin: 0; font-family: var(--text);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 16px;
+}
+.wrap { width: min(100%, calc((100vh - 36px) / 1.48)); width: min(100%, calc((100dvh - 36px) / 1.48)); min-width: min(100%, 340px); margin: 0 auto; }
+
+.cdu {
+  container-type: inline-size;
+  background: linear-gradient(180deg, var(--bezel-hi), var(--bezel) 35%, var(--bezel-lo));
+  border-radius: 14px;
+  box-shadow: inset 0 1px 0 var(--bezel-hi), 0 10px 30px rgba(0,0,0,.45);
+  padding-block: 5% 6%;
+}
+.top, .pad { font-size: clamp(9px, 3.3vw, 18px); font-size: 3.35cqw; }
+.top { --row: 1.66em; display: grid; grid-template-columns: 10% 1fr 10%; column-gap: 1.5%; }
+.lsks, .screen { display: grid; grid-template-rows: repeat(14, var(--row)); padding-block: .55em; }
+.lsks button { align-self: center; }
+.lsks.l button { justify-self: end; }
+.lsks.r button { justify-self: start; }
+.lsk {
+  width: 2.75em; height: 1.485em; border-radius: .275em; max-width: 100%;
+  background: var(--key); border: 1px solid var(--key-edge); box-shadow: 0 .12em 0 rgba(0,0,0,.5);
+  display: grid; place-items: center; cursor: pointer; padding: 0; touch-action: manipulation;
+}
+.lsk::after { content: ""; width: 1.43em; height: .2em; background: var(--key-text); border-radius: 1px; }
+.lsk:active { transform: translateY(.08em); box-shadow: none; }
+.screen {
+  background: radial-gradient(120% 90% at 70% 100%, #121416, var(--screen) 60%);
+  border-radius: 7px; box-shadow: inset 0 0 0 2px #000, inset 0 0 1.2em rgba(0,0,0,.9);
+  font-family: var(--mono); padding-inline: .45em; overflow: hidden; font-variant-numeric: tabular-nums;
+}
+.ln { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; white-space: pre; line-height: 1; }
+.ln .l { justify-self: start; } .ln .c { justify-self: center; } .ln .r { justify-self: end; }
+.ln.lbl { font-size: .74em; color: var(--label); letter-spacing: .02em; }
+.ln.dat, .ln.ttl, .ln.sp { font-size: 1.04em; }
+.disc { font-size: .9em; line-height: 1; white-space: nowrap; overflow: hidden; align-self: center; }
+.disc span { display: inline-block; padding-left: 100%; animation: disc-slide 16s linear 1 forwards; }
+@keyframes disc-slide { to { transform: translateX(-100%); } }
+@media (prefers-reduced-motion: reduce) { .disc { white-space: normal; font-size: .6em; line-height: 1.12; } .disc span { padding-left: 0; animation: none; } }
+.cyan { color: var(--cyan); } .green { color: var(--green); } .amber { color: var(--amber); }
+.red { color: var(--red); } .dim { color: var(--dim); } .white { color: var(--label); }
+.small { font-size: .78em; }
+.big { font-size: 1.22em; font-weight: 700; letter-spacing: .02em; }
+.boxes { display: inline-flex; gap: .08em; vertical-align: middle; }
+.boxes i { width: .52em; height: .82em; border: .1em solid var(--amber); display: inline-block; }
+.verdict { padding: .08em .35em; border: .1em solid currentColor; border-radius: .12em; font-weight: 700; letter-spacing: .06em; }
+.verdict.nogo { color: var(--red); }
+
+.pad { display: grid; grid-template-columns: 27% 1fr; gap: 4%; padding: 6% 6% 0; }
+.fns { display: grid; grid-template-rows: repeat(4, 1fr); gap: .6em; }
+.keys { display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(4, 1fr); gap: .6em; }
+.pad button {
+  font-family: var(--keyface); font-weight: 700; color: var(--key-text);
+  background: linear-gradient(180deg, #2a2c2f, var(--key)); border: 1px solid var(--key-edge);
+  box-shadow: 0 .14em 0 rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.06);
+  cursor: pointer; touch-action: manipulation; padding: 0; -webkit-tap-highlight-color: transparent;
+}
+.pad button:active { transform: translateY(.1em); box-shadow: inset 0 1px 0 rgba(255,255,255,.06); }
+button:focus-visible, summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.fn { color: var(--fn-text) !important; font-size: 1.15em; border-radius: .3em; min-height: 2.6em; letter-spacing: .03em; }
+.k { aspect-ratio: 1; max-width: 100%; font-size: 1.45em; }
+.k.dig { border-radius: 50%; }
+.k.let { border-radius: .22em; }
+.k.clr { grid-column: 4 / 6; grid-row: 3 / 5; aspect-ratio: auto; border-radius: .22em; font-size: 1.15em; }
+.k.sm { font-size: 1.05em; }
+.k.dummy { cursor: default; }
+.k.zero { grid-column: 2; grid-row: 4; }
+.k.dot { grid-column: 1; grid-row: 4; }
+.k.slash { grid-column: 3; grid-row: 4; }
+
+/* reference panel under the unit */
+.ref { margin-top: 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font-size: 14px; line-height: 1.5; }
+.ref h2 { font-size: 15px; margin: 0 0 6px; color: var(--label); }
+.ref .warn { color: var(--amber); margin: 6px 0; }
+.ref .bad { color: var(--red); margin: 6px 0; }
+.ref .foot { color: var(--foot); font-size: 13px; }
+.ref details { margin-top: 8px; } .ref summary { cursor: pointer; color: var(--cyan); }
+.ref ol, .ref ul { padding-left: 20px; margin: 6px 0; }
+.scroll { overflow-x: auto; }
+table.grid { border-collapse: collapse; font-family: var(--mono); font-size: 12px; margin-top: 8px; }
+table.grid td, table.grid th { border: 1px solid var(--line); padding: 3px 5px; text-align: center; white-space: nowrap; }
+table.grid th { color: var(--foot); font-weight: 400; }
+td.hit { background: var(--green); color: #000; font-weight: 700; }
+.help { color: var(--foot); font-size: 13px; margin: 4px 0 0; }
+</style>
+
+<div class="wrap">
+  <div class="cdu" role="application" aria-label="Kilfrost ABC-S Plus holdover time CDU">
+    <div class="top">
+      <div class="lsks l" id="lsksL"></div>
+      <div class="screen" id="screen" aria-live="polite"></div>
+      <div class="lsks r" id="lsksR"></div>
+    </div>
+    <div class="pad">
+      <div class="fns">
+        <button class="fn" data-fn="MAIN">HOT</button>
+        <button class="fn" data-fn="WX">WX</button>
+        <button class="fn" data-fn="INFO">INFO</button>
+        <button class="fn" data-fn="DATA">DATA</button>
+      </div>
+      <div class="keys">
+        <button class="k dig" data-k="1">1</button><button class="k dig" data-k="2">2</button><button class="k dig" data-k="3">3</button>
+        <button class="k let sm" data-k="DEL" aria-label="Delete last character">DEL</button><button class="k let" data-k="M" aria-label="M, minus as in METAR">M</button>
+        <button class="k dig" data-k="4">4</button><button class="k dig" data-k="5">5</button><button class="k dig" data-k="6">6</button>
+        <button class="k let sm dummy" data-k="SPACE" aria-hidden="true" tabindex="-1"></button><button class="k let sm dummy" data-k="SPACE" aria-hidden="true" tabindex="-1"></button>
+        <button class="k dig" data-k="7">7</button><button class="k dig" data-k="8">8</button><button class="k dig" data-k="9">9</button>
+        <button class="k let clr" data-k="CLR">CLR</button>
+        <button class="k dig dot" data-k=".">.</button><button class="k dig zero" data-k="0">0</button><button class="k dig slash" data-k="-" aria-label="Minus">−</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="ref">
+    <h2 id="refHead">결과 설명</h2>
+    <div id="msgs"></div>
+    <p class="help">사용법: 키패드로 숫자를 스크래치패드(맨 아랫줄)에 입력한 뒤 해당 줄 옆 LSK를 누르십시오. OAT는 −5 또는 M05 모두 됩니다. 시정은 METAR 미터(예: 1600), 시각은 4자리(예: 1230).</p>
+    <details><summary>표 원본 보기 (선택한 칸 강조)</summary><div class="scroll" id="tbl"></div></details>
+    <details><summary>Cautions (FAA 원문)</summary><ul id="cautions"></ul></details>
+    <details><summary>표 Notes 전문 (FAA 원문)</summary><ol id="notes"></ol></details>
+    <p class="foot">FAA Holdover Time Guidelines Winter 2026-2027, Original Issue Aug 11, 2026 · Table 1·2·3·43, Adj-1·2·3·43, Table 57, Table 61. 교육·검증용입니다. 운항 판단은 회사 승인 문서와 FAA 원문으로 하십시오.</p>
+  </div>
+</div>
+
+<script>
+{
+const D = {"std": [{"oat": "-3 °C and above", "oatF": "27 °F and above", "range": [-3.0, null], "conc": "100/0", "cells": {"FZFG": ["2:10", "4:00"], "SN_FZFG": ["0:55", "1:35"], "VLSN": ["3:00", "3:00"], "LSN": ["2:05", "3:00"], "MSN": ["1:15", "2:05"], "FZDZ": ["1:50", "2:00"], "LFZRA": ["1:05", "2:00"], "MSN_RA": ["0:15", "0:15"], "RCSW": ["0:25", "2:00"]}}, {"oat": "-3 °C and above", "oatF": "27 °F and above", "range": [-3.0, null], "conc": "75/25", "cells": {"FZFG": ["1:25", "2:40"], "SN_FZFG": ["0:30", "0:55"], "VLSN": ["2:05", "2:25"], "LSN": ["1:15", "2:05"], "MSN": ["0:45", "1:15"], "FZDZ": ["1:00", "1:20"], "LFZRA": ["0:30", "0:50"], "MSN_RA": ["0:08", "0:08"], "RCSW": ["0:10", "1:20"]}}, {"oat": "-3 °C and above", "oatF": "27 °F and above", "range": [-3.0, null], "conc": "50/50", "cells": {"FZFG": ["0:30", "0:55"], "SN_FZFG": ["0:15", "0:25"], "VLSN": ["1:00", "1:10"], "LSN": ["0:30", "1:00"], "MSN": ["0:15", "0:30"], "FZDZ": ["0:15", "0:40"], "LFZRA": ["0:15", "0:20"]}}, {"oat": "below -3 to -8 °C", "oatF": "below 27 to 18 °F", "range": [-8.0, -3.0], "conc": "100/0", "cells": {"FZFG": ["0:55", "3:30"], "SN_FZFG": ["0:50", "1:25"], "VLSN": ["3:00", "3:00"], "LSN": ["1:50", "3:00"], "MSN": ["1:05", "1:50"], "FZDZ": ["0:25", "1:35"], "LFZRA": ["0:20", "0:30"]}}, {"oat": "below -3 to -8 °C", "oatF": "below 27 to 18 °F", "range": [-8.0, -3.0], "conc": "75/25", "cells": {"FZFG": ["0:45", "1:50"], "SN_FZFG": ["0:30", "0:50"], "VLSN": ["1:50", "2:10"], "LSN": ["1:05", "1:50"], "MSN": ["0:40", "1:05"], "FZDZ": ["0:20", "1:10"], "LFZRA": ["0:15", "0:25"]}}, {"oat": "below -8 to -14 °C", "oatF": "below 18 to 7 °F", "range": [-14.0, -8.0], "conc": "100/0", "cells": {"FZFG": ["0:55", "3:30"], "SN_FZFG": ["0:45", "1:15"], "VLSN": ["2:55", "3:00"], "LSN": ["1:45", "2:55"], "MSN": ["1:00", "1:45"], "FZDZ": ["0:25", "1:35", "10"], "LFZRA": ["0:20", "0:30", "10"]}}, {"oat": "below -8 to -14 °C", "oatF": "below 18 to 7 °F", "range": [-14.0, -8.0], "conc": "75/25", "cells": {"FZFG": ["0:45", "1:50"], "SN_FZFG": ["0:25", "0:45"], "VLSN": ["1:45", "2:00"], "LSN": ["1:00", "1:45"], "MSN": ["0:35", "1:00"], "FZDZ": ["0:20", "1:10", "10"], "LFZRA": ["0:15", "0:25", "10"]}}, {"oat": "below -14 to -18 °C", "oatF": "below 7 to 0 °F", "range": [-18.0, -14.0], "conc": "100/0", "cells": {"FZFG": ["0:40", "1:00"], "SN_FZFG": ["0:01", "0:06"], "VLSN": ["0:30", "0:45"], "LSN": ["0:09", "0:30"], "MSN": ["0:02", "0:09"]}}, {"oat": "below -18 to -25 °C", "oatF": "below 0 to -13 °F", "range": [-25.0, -18.0], "conc": "100/0", "cells": {"FZFG": ["0:40", "1:00"], "SN_FZFG": ["0:00", "0:02"], "VLSN": ["0:10", "0:20"], "LSN": ["0:03", "0:10"], "MSN": ["0:01", "0:03"]}}, {"oat": "below -25 to -28 °C", "oatF": "below -13 to -18 °F", "range": [-28.0, -25.0], "conc": "100/0", "cells": {"FZFG": ["0:40", "1:00"], "SN_FZFG": ["0:00", "0:01"], "VLSN": ["0:07", "0:10"], "LSN": ["0:02", "0:07"], "MSN": ["0:00", "0:02"]}}], "adj": [{"oat": "-3 °C and above", "oatF": "27 °F and above", "range": [-3.0, null], "conc": "100/0", "cells": {"FZFG": ["1:39", "3:02"], "SN_FZFG": ["0:42", "1:12"], "VLSN": ["2:43", "3:00"], "LSN": ["1:35", "2:43"], "MSN": ["0:57", "1:35"], "FZDZ": ["1:24", "1:31"], "LFZRA": ["0:49", "1:31"], "MSN_RA": ["0:11", "0:11"], "RCSW": ["0:19", "1:31"]}}, {"oat": "-3 °C and above", "oatF": "27 °F and above", "range": [-3.0, null], "conc": "75/25", "cells": {"FZFG": ["1:05", "2:02"], "SN_FZFG": ["0:23", "0:42"], "VLSN": ["1:35", "1:50"], "LSN": ["0:57", "1:35"], "MSN": ["0:34", "0:57"], "FZDZ": ["0:46", "1:01"], "LFZRA": ["0:23", "0:38"], "MSN_RA": ["0:06", "0:06"], "RCSW": ["0:08", "1:01"]}}, {"oat": "-3 °C and above", "oatF": "27 °F and above", "range": [-3.0, null], "conc": "50/50", "cells": {"FZFG": ["0:23", "0:42"], "SN_FZFG": ["0:11", "0:19"], "VLSN": ["0:46", "0:53"], "LSN": ["0:23", "0:46"], "MSN": ["0:11", "0:23"], "FZDZ": ["0:11", "0:30"], "LFZRA": ["0:11", "0:15"]}}, {"oat": "below -3 to -8 °C", "oatF": "below 27 to 18 °F", "range": [-8.0, -3.0], "conc": "100/0", "cells": {"FZFG": ["0:42", "2:40"], "SN_FZFG": ["0:38", "1:05"], "VLSN": ["2:24", "2:51"], "LSN": ["1:24", "2:24"], "MSN": ["0:49", "1:24"], "FZDZ": ["0:19", "1:12"], "LFZRA": ["0:15", "0:23"]}}, {"oat": "below -3 to -8 °C", "oatF": "below 27 to 18 °F", "range": [-8.0, -3.0], "conc": "75/25", "cells": {"FZFG": ["0:34", "1:24"], "SN_FZFG": ["0:23", "0:38"], "VLSN": ["1:24", "1:39"], "LSN": ["0:49", "1:24"], "MSN": ["0:30", "0:49"], "FZDZ": ["0:15", "0:53"], "LFZRA": ["0:11", "0:19"]}}, {"oat": "below -8 to -14 °C", "oatF": "below 18 to 7 °F", "range": [-14.0, -8.0], "conc": "100/0", "cells": {"FZFG": ["0:42", "2:40"], "SN_FZFG": ["0:34", "0:57"], "VLSN": ["2:13", "2:40"], "LSN": ["1:20", "2:13"], "MSN": ["0:46", "1:20"], "FZDZ": ["0:19", "1:12", "10"], "LFZRA": ["0:15", "0:23", "10"]}}, {"oat": "below -8 to -14 °C", "oatF": "below 18 to 7 °F", "range": [-14.0, -8.0], "conc": "75/25", "cells": {"FZFG": ["0:34", "1:24"], "SN_FZFG": ["0:19", "0:34"], "VLSN": ["1:20", "1:31"], "LSN": ["0:46", "1:20"], "MSN": ["0:27", "0:46"], "FZDZ": ["0:15", "0:53", "10"], "LFZRA": ["0:11", "0:19", "10"]}}, {"oat": "below -14 to -18 °C", "oatF": "below 7 to 0 °F", "range": [-18.0, -14.0], "conc": "100/0", "cells": {"FZFG": ["0:30", "0:46"], "SN_FZFG": ["0:01", "0:05"], "VLSN": ["0:23", "0:34"], "LSN": ["0:07", "0:23"], "MSN": ["0:02", "0:07"]}}, {"oat": "below -18 to -25 °C", "oatF": "below 0 to -13 °F", "range": [-25.0, -18.0], "conc": "100/0", "cells": {"FZFG": ["0:30", "0:46"], "SN_FZFG": ["0:00", "0:02"], "VLSN": ["0:08", "0:15"], "LSN": ["0:02", "0:08"], "MSN": ["0:01", "0:02"]}}, {"oat": "below -25 to -28 °C", "oatF": "below -13 to -18 °F", "range": [-28.0, -25.0], "conc": "100/0", "cells": {"FZFG": ["0:30", "0:46"], "SN_FZFG": ["0:00", "0:01"], "VLSN": ["0:05", "0:08"], "LSN": ["0:02", "0:05"], "MSN": ["0:00", "0:02"]}}], "notes": {"1": "Ensure that the lowest operational use temperature (LOUT) is respected. Consider use of Type I fluid when Type IV fluid cannot be used.", "2": "Freezing mist is best confirmed by observation. It is never reported by METAR; however, it can occur when mist is present at 0 °C (32 °F) and below.", "3": "Use freezing fog holdover times in conditions of ice crystals mixed with freezing fog or freezing mist.", "4": "To determine snowfall intensity, the Snowfall Intensities as a Function of Prevailing Visibility table (Table 57) is required. No holdover times exist if the reported visibility correlates to a “heavy” precipitation intensity.", "5": "Use snow holdover times in conditions of very light, light, or moderate snow mixed with ice crystals.", "6": "Includes light, moderate and heavy freezing drizzle. Use light freezing rain holdover times if positive identification of freezing drizzle is not possible.", "7": "These holdover times apply to conditions of “moderate” precipitation intensity. In cases of very light or light snow mixed with light rain or drizzle, use light freezing rain holdover times. The Snowfall Intensities as a Function of Prevailing Visibility table (Table 57) is required to confirm the precipitation intensity. No holdover times exist if the reported visibility correlates to a “heavy” precipitation intensity.", "8": "No holdover time guidelines exist for this condition for 0 °C (32 °F) and below.", "9": "Heavy snow, ice pellets, moderate and heavy freezing rain, small hail and hail (Table 56 provides allowance times for Type IV PG fluids in ice pellets and small hail).", "10": "No holdover time guidelines exist for this condition below -10 °C (14 °F)."}, "frost": [{"oat": "-1 °C and above", "oatF": "30 °F and above", "range": [-1.0, null], "conc": "100/0", "typeII": "8:00", "typeIII": "2:00", "typeIV": "12:00"}, {"oat": "-1 °C and above", "oatF": "30 °F and above", "range": [-1.0, null], "conc": "75/25", "typeII": "5:00", "typeIII": "1:00", "typeIV": "5:00"}, {"oat": "-1 °C and above", "oatF": "30 °F and above", "range": [-1.0, null], "conc": "50/50", "typeII": "2:00", "typeIII": "0:30", "typeIV": "3:00"}, {"oat": "below -1 to -3 °C", "oatF": "below 30 to 27 °F", "range": [-3.0, -1.0], "conc": "100/0", "typeII": "8:00", "typeIII": "2:00", "typeIV": "12:00"}, {"oat": "below -1 to -3 °C", "oatF": "below 30 to 27 °F", "range": [-3.0, -1.0], "conc": "75/25", "typeII": "5:00", "typeIII": "1:00", "typeIV": "5:00"}, {"oat": "below -1 to -3 °C", "oatF": "below 30 to 27 °F", "range": [-3.0, -1.0], "conc": "50/50", "typeII": "1:30", "typeIII": "0:30", "typeIV": "3:00"}, {"oat": "below -3 to -10 °C", "oatF": "below 27 to 14 °F", "range": [-10.0, -3.0], "conc": "100/0", "typeII": "8:00", "typeIII": "2:00", "typeIV": "10:00"}, {"oat": "below -3 to -10 °C", "oatF": "below 27 to 14 °F", "range": [-10.0, -3.0], "conc": "75/25", "typeII": "4:00", "typeIII": "1:00", "typeIV": "5:00"}, {"oat": "below -10 to -14 °C", "oatF": "below 14 to 7 °F", "range": [-14.0, -10.0], "conc": "100/0", "typeII": "6:00", "typeIII": "2:00", "typeIV": "6:00"}, {"oat": "below -10 to -14 °C", "oatF": "below 14 to 7 °F", "range": [-14.0, -10.0], "conc": "75/25", "typeII": "1:00", "typeIII": "1:00", "typeIV": "1:00"}, {"oat": "below -14 to -21 °C", "oatF": "below 7 to -6 °F", "range": [-21.0, -14.0], "conc": "100/0", "typeII": "3:00", "typeIII": "2:00", "typeIV": "6:00"}, {"oat": "below -21 to -25 °C", "oatF": "below -6 to -13 °F", "range": [-25.0, -21.0], "conc": "100/0", "typeII": "2:00", "typeIII": "2:00", "typeIV": "4:00"}], "frostAdj": [{"oat": "-1 °C and above", "oatF": "30 °F and above", "range": [-1.0, null], "conc": "100/0", "typeII": "6:05", "typeIII": "1:31", "typeIV": "9:07"}, {"oat": "-1 °C and above", "oatF": "30 °F and above", "range": [-1.0, null], "conc": "75/25", "typeII": "3:48", "typeIII": "0:46", "typeIV": "3:48"}, {"oat": "-1 °C and above", "oatF": "30 °F and above", "range": [-1.0, null], "conc": "50/50", "typeII": "1:31", "typeIII": "0:23", "typeIV": "2:17"}, {"oat": "below -1 to -3 °C", "oatF": "below 30 to 27 °F", "range": [-3.0, -1.0], "conc": "100/0", "typeII": "6:05", "typeIII": "1:31", "typeIV": "9:07"}, {"oat": "below -1 to -3 °C", "oatF": "below 30 to 27 °F", "range": [-3.0, -1.0], "conc": "75/25", "typeII": "3:48", "typeIII": "0:46", "typeIV": "3:48"}, {"oat": "below -1 to -3 °C", "oatF": "below 30 to 27 °F", "range": [-3.0, -1.0], "conc": "50/50", "typeII": "1:08", "typeIII": "0:23", "typeIV": "2:17"}, {"oat": "below -3 to -10 °C", "oatF": "below 27 to 14 °F", "range": [-10.0, -3.0], "conc": "100/0", "typeII": "6:05", "typeIII": "1:31", "typeIV": "7:36"}, {"oat": "below -3 to -10 °C", "oatF": "below 27 to 14 °F", "range": [-10.0, -3.0], "conc": "75/25", "typeII": "3:02", "typeIII": "0:46", "typeIV": "3:48"}, {"oat": "below -10 to -14 °C", "oatF": "below 14 to 7 °F", "range": [-14.0, -10.0], "conc": "100/0", "typeII": "4:34", "typeIII": "1:31", "typeIV": "4:34"}, {"oat": "below -10 to -14 °C", "oatF": "below 14 to 7 °F", "range": [-14.0, -10.0], "conc": "75/25", "typeII": "0:46", "typeIII": "0:46", "typeIV": "0:46"}, {"oat": "below -14 to -21 °C", "oatF": "below 7 to -6 °F", "range": [-21.0, -14.0], "conc": "100/0", "typeII": "2:17", "typeIII": "1:31", "typeIV": "4:34"}, {"oat": "below -21 to -25 °C", "oatF": "below -6 to -13 °F", "range": [-25.0, -21.0], "conc": "100/0", "typeII": "1:31", "typeIII": "1:31", "typeIV": "3:02"}], "frostNotes": {"1": "To use the holdover times in this table, ensure that the fluid and dilution being used is listed in the List of Fluids Tested for Anti-Icing Performance and Aerodynamic Acceptance table (Table 58 - Table 61). Any restrictions on the use of the fluid have to be identified and applied.", "2": "Type I Fluid / Water Mixture must be selected so that the freezing point of the mixture is at least 10 °C (18 °F) below outside air temperature.", "3": "Ensure that the lowest operational use temperature (LOUT) is respected.", "4": "Changes in outside air temperature (OAT) over the course of longer frost events can be significant; the appropriate holdover time to use is the one provided for the coldest OAT that has occurred in the time between the de/anti-icing fluid application and takeoff.", "5": "To use the Type III fluid frost holdover times, the fluid brand being used must be known. AllClear AeroClear MAX must be applied unheated."}};
+const CAUTIONS = {"9": ["The responsibility for the application of these data remains with the user.", "Fluids used during ground de/anti-icing do not provide in-flight icing protection.", "This table is for departure planning only and should be used in conjunction with pre-takeoff check procedures."], "11": ["The responsibility for the application of these data remains with the user.", "The time of protection will be shortened in heavy weather conditions, heavy precipitation rates or high moisture content.", "High wind velocity, jet blast or blowing snow may reduce holdover time below the lowest time stated in the range.", "The holdover time may be reduced when aircraft skin temperature is lower than outside air temperature.", "Fluids used during ground de/anti-icing do not provide in-flight icing protection.", "This table is for departure planning only and should be used in conjunction with pre-takeoff check procedures."], "32": ["The responsibility for the application of these data remains with the user.", "The time of protection will be shortened in heavy weather conditions, heavy precipitation rates or high moisture content.", "High wind velocity, jet blast or blowing snow may reduce holdover time below the lowest time stated in the range.", "The holdover time may be reduced when aircraft skin temperature is lower than outside air temperature.", "Fluids used during ground de/anti-icing do not provide in-flight icing protection.", "This table is for departure planning only and should be used in conjunction with pre-takeoff check procedures.", "Whenever frost or ice occurs on the lower surface of the wing in the area of the fuel tank, indicating a cold-soaked wing, the 50/50 dilution of Type II or IV are not to be used for the anti-icing step because fluid freezing may occur."], "66": ["The responsibility for the application of these data remains with the user.", "Fluids used during ground de/anti-icing do not provide in-flight icing protection.", "This table is for departure planning only and should be used in conjunction with pre-takeoff check procedures.", "Allowance time cannot be extended by an inspection of the aircraft critical surfaces."]};
+const TI = {"al": [{"oat": "-3 °C and above", "oatF": "27 °F and above", "range": [-3.0, null], "cells": {"FZFG": ["0:11", "0:17"], "SN_FZFG": ["0:06", "0:11"], "VLSN": ["0:18", "0:22"], "LSN": ["0:11", "0:18"], "MSN": ["0:06", "0:11"], "FZDZ": ["0:09", "0:13"], "LFZRA": ["0:02", "0:05"], "MSN_RA": ["0:02", "0:02"], "RCSW": ["0:02", "0:05"]}}, {"oat": "below -3 to -6 °C", "oatF": "below 27 to 21 °F", "range": [-6.0, -3.0], "cells": {"FZFG": ["0:08", "0:13"], "SN_FZFG": ["0:05", "0:08"], "VLSN": ["0:14", "0:17"], "LSN": ["0:08", "0:14"], "MSN": ["0:05", "0:08"], "FZDZ": ["0:05", "0:09"], "LFZRA": ["0:02", "0:05"]}}, {"oat": "below -6 to -10 °C", "oatF": "below 21 to 14 °F", "range": [-10.0, -6.0], "cells": {"FZFG": ["0:06", "0:10"], "SN_FZFG": ["0:04", "0:06"], "VLSN": ["0:11", "0:13"], "LSN": ["0:06", "0:11"], "MSN": ["0:04", "0:06"], "FZDZ": ["0:04", "0:07"], "LFZRA": ["0:02", "0:05"]}}, {"oat": "below -10 °C", "oatF": "below 14 °F", "range": [null, -10.0], "cells": {"FZFG": ["0:05", "0:09"], "SN_FZFG": ["0:02", "0:04"], "VLSN": ["0:07", "0:08"], "LSN": ["0:04", "0:07"], "MSN": ["0:02", "0:04"]}}], "comp": [{"oat": "-3 °C and above", "oatF": "27 °F and above", "range": [-3.0, null], "cells": {"FZFG": ["0:09", "0:16"], "SN_FZFG": ["0:03", "0:06"], "VLSN": ["0:12", "0:15"], "LSN": ["0:06", "0:12"], "MSN": ["0:03", "0:06"], "FZDZ": ["0:08", "0:13"], "LFZRA": ["0:02", "0:05"], "MSN_RA": ["0:01", "0:01"], "RCSW": ["0:01", "0:05"]}}, {"oat": "below -3 to -6 °C", "oatF": "below 27 to 21 °F", "range": [-6.0, -3.0], "cells": {"FZFG": ["0:06", "0:08"], "SN_FZFG": ["0:02", "0:05"], "VLSN": ["0:11", "0:13"], "LSN": ["0:05", "0:11"], "MSN": ["0:02", "0:05"], "FZDZ": ["0:05", "0:09"], "LFZRA": ["0:02", "0:05"]}}, {"oat": "below -6 to -10 °C", "oatF": "below 21 to 14 °F", "range": [-10.0, -6.0], "cells": {"FZFG": ["0:04", "0:08"], "SN_FZFG": ["0:02", "0:05"], "VLSN": ["0:09", "0:12"], "LSN": ["0:05", "0:09"], "MSN": ["0:02", "0:05"], "FZDZ": ["0:04", "0:07"], "LFZRA": ["0:02", "0:05"]}}, {"oat": "below -10 °C", "oatF": "below 14 °F", "range": [null, -10.0], "cells": {"FZFG": ["0:04", "0:07"], "SN_FZFG": ["0:02", "0:04"], "VLSN": ["0:07", "0:08"], "LSN": ["0:04", "0:07"], "MSN": ["0:02", "0:04"]}}], "alAdj": [{"oat": "-3 °C and above", "oatF": "27 °F and above", "range": [-3.0, null], "cells": {"FZFG": ["0:08", "0:13"], "SN_FZFG": ["0:05", "0:08"], "VLSN": ["0:14", "0:17"], "LSN": ["0:08", "0:14"], "MSN": ["0:05", "0:08"], "FZDZ": ["0:07", "0:10"], "LFZRA": ["0:02", "0:04"], "MSN_RA": ["0:02", "0:02"], "RCSW": ["0:02", "0:04"]}}, {"oat": "below -3 to -6 °C", "oatF": "below 27 to 21 °F", "range": [-6.0, -3.0], "cells": {"FZFG": ["0:06", "0:10"], "SN_FZFG": ["0:04", "0:06"], "VLSN": ["0:11", "0:13"], "LSN": ["0:06", "0:11"], "MSN": ["0:04", "0:06"], "FZDZ": ["0:04", "0:07"], "LFZRA": ["0:02", "0:04"]}}, {"oat": "below -6 to -10 °C", "oatF": "below 21 to 14 °F", "range": [-10.0, -6.0], "cells": {"FZFG": ["0:05", "0:08"], "SN_FZFG": ["0:03", "0:05"], "VLSN": ["0:08", "0:10"], "LSN": ["0:05", "0:08"], "MSN": ["0:03", "0:05"], "FZDZ": ["0:03", "0:05"], "LFZRA": ["0:02", "0:04"]}}, {"oat": "below -10 °C", "oatF": "below 14 °F", "range": [null, -10.0], "cells": {"FZFG": ["0:04", "0:07"], "SN_FZFG": ["0:02", "0:03"], "VLSN": ["0:05", "0:06"], "LSN": ["0:03", "0:05"], "MSN": ["0:02", "0:03"]}}], "compAdj": [{"oat": "-3 °C and above", "oatF": "27 °F and above", "range": [-3.0, null], "cells": {"FZFG": ["0:07", "0:12"], "SN_FZFG": ["0:02", "0:05"], "VLSN": ["0:09", "0:11"], "LSN": ["0:05", "0:09"], "MSN": ["0:02", "0:05"], "FZDZ": ["0:06", "0:10"], "LFZRA": ["0:02", "0:04"], "MSN_RA": ["0:01", "0:01"], "RCSW": ["0:01", "0:04"]}}, {"oat": "below -3 to -6 °C", "oatF": "below 27 to 21 °F", "range": [-6.0, -3.0], "cells": {"FZFG": ["0:05", "0:06"], "SN_FZFG": ["0:02", "0:04"], "VLSN": ["0:08", "0:10"], "LSN": ["0:04", "0:08"], "MSN": ["0:02", "0:04"], "FZDZ": ["0:04", "0:07"], "LFZRA": ["0:02", "0:04"]}}, {"oat": "below -6 to -10 °C", "oatF": "below 21 to 14 °F", "range": [-10.0, -6.0], "cells": {"FZFG": ["0:03", "0:06"], "SN_FZFG": ["0:02", "0:04"], "VLSN": ["0:07", "0:09"], "LSN": ["0:04", "0:07"], "MSN": ["0:02", "0:04"], "FZDZ": ["0:03", "0:05"], "LFZRA": ["0:02", "0:04"]}}, {"oat": "below -10 °C", "oatF": "below 14 °F", "range": [null, -10.0], "cells": {"FZFG": ["0:03", "0:05"], "SN_FZFG": ["0:02", "0:03"], "VLSN": ["0:05", "0:06"], "LSN": ["0:03", "0:05"], "MSN": ["0:02", "0:03"]}}], "notes": {"1": "To use the holdover times in this table, ensure that the fluid and dilution being used is listed in the Type I Fluids Tested for Anti-Icing Performance and Aerodynamic Acceptance table (Table 58). Any restrictions on the use of the fluid have to be identified and applied.", "2": "Type I fluid / water mixture must be selected so that the freezing point of the mixture is at least 10 °C (18 °F) below outside air temperature.", "3": "Ensure that the lowest operational use temperature (LOUT) is respected.", "4": "Freezing mist is best confirmed by observation. It is never reported by METAR; however, it can occur when mist is present at 0 °C (32 °F) and below.", "5": "Use freezing fog holdover times in conditions of ice crystals mixed with freezing fog or freezing mist.", "6": "To determine snowfall intensity, the Snowfall Intensities as a Function of Prevailing Visibility table (Table 57) is required. No holdover times exist if the reported visibility correlates to a “heavy” precipitation intensity.", "7": "Use snow holdover times in conditions of very light, light, or moderate snow mixed with ice crystals.", "8": "Includes light, moderate and heavy freezing drizzle. Use light freezing rain holdover times if positive identification of freezing drizzle is not possible.", "9": "These holdover times apply to conditions of “moderate” precipitation intensity. In cases of very light or light snow mixed with light rain or drizzle, use light freezing rain holdover times. The Snowfall Intensities as a Function of Prevailing Visibility table (Table 57) is required to confirm the precipitation intensity. No holdover times exist if the reported visibility correlates to a “heavy” precipitation intensity.", "10": "No holdover time guidelines exist for this condition for 0 °C (32 °F) and below.", "11": "Heavy snow, ice pellets, moderate and heavy freezing rain, small hail and hail."}, "frost": {"IAL": ["0:45", "0:34"], "ICOMP": ["0:35", "0:27"]}, "frostRange": [null, null]};
+const AT = {"cols": [[0, null, false], [-5, 0, true], [-10, -5, false], [-16, -10, false], [-22, -16, false]], "rows": [{"label": "Light Ice Pellets (or Small Hail) -PL", "codes": ["-PL"], "std": [50, 50, 30, 30, 20], "adj": [38, 38, 23, 23, 15]}, {"label": "Light Ice Pellets (or Small Hail) Mixed with Light Snow -PLSN, -SNPL", "codes": ["-PLSN", "-SNPL"], "std": [40, 40, 15, 15, null], "adj": [30, 30, 11, 11, null]}, {"label": "Light Ice Pellets (or Small Hail) Mixed with Light Freezing Drizzle -PLFZDZ, -FZDZPL", "codes": ["-PLFZDZ", "-FZDZPL"], "std": [null, 25, 10, null, null], "adj": [null, 19, 8, null, null]}, {"label": "Light Ice Pellets (or Small Hail) Mixed with Light Drizzle -PLDZ, -DZPL", "codes": ["-PLDZ", "-DZPL"], "std": [25, null, null, null, null], "adj": [19, null, null, null, null]}, {"label": "Light Ice Pellets (or Small Hail) Mixed with Light Freezing Rain -PLFZRA, -FZRAPL", "codes": ["-PLFZRA", "-FZRAPL"], "std": [null, 25, 10, null, null], "adj": [null, 19, 8, null, null]}, {"label": "Light Ice Pellets (or Small Hail) Mixed with Light Rain -PLRA, -RAPL", "codes": ["-PLRA", "-RAPL"], "std": [25, null, null, null, null], "adj": [19, null, null, null, null]}, {"label": "Light Ice Pellets (or Small Hail) Mixed with Light Freezing Rain and Light Snow -PLFZRASN, -PLSNFZRA, -FZRAPLSN, -FZRASNPL, -SNPLFZRA, -SNFZRAPL", "codes": ["-PLFZRASN", "-PLSNFZRA", "-FZRAPLSN", "-FZRASNPL", "-SNPLFZRA", "-SNFZRAPL"], "std": [null, 20, null, null, null], "adj": [null, 15, null, null, null]}, {"label": "Light Ice Pellets (or Small Hail) Mixed with Light Rain and Light Snow -PLRASN, -PLSNRA, -RAPLSN, -RASNPL, -SNPLRA, -SNRAPL", "codes": ["-PLRASN", "-PLSNRA", "-RAPLSN", "-RASNPL", "-SNPLRA", "-SNRAPL"], "std": [20, null, null, null, null], "adj": [15, null, null, null, null]}, {"label": "Moderate Ice Pellets (or Small Hail) PL", "codes": ["PL"], "std": [15, 15, 10, 10, null], "adj": [11, 11, 8, 8, null]}, {"label": "Moderate Ice Pellets (or Small Hail) Mixed with Moderate Snow PLSN, SNPL", "codes": ["PLSN", "SNPL"], "std": [15, 15, 5, 5, null], "adj": [11, 11, 4, 4, null]}, {"label": "Moderate Ice Pellets (or Small Hail)Mixed with Light or Moderate Freezing Drizzle PLFZDZ, FZDZPL", "codes": ["PLFZDZ", "FZDZPL"], "std": [null, 10, 7, null, null], "adj": [null, 8, 5, null, null]}, {"label": "Moderate Ice Pellets (or Small Hail) Mixed with Light or Moderate Drizzle PLDZ, DZPL", "codes": ["PLDZ", "DZPL"], "std": [10, null, null, null, null], "adj": [8, null, null, null, null]}, {"label": "Moderate Ice Pellets (or Small Hail) Mixed with Moderate Rain PLRA, RAPL", "codes": ["PLRA", "RAPL"], "std": [10, null, null, null, null], "adj": [8, null, null, null, null]}], "notes": {"1": "These allowance times are for use with undiluted (100/0) PG-based fluids applied on aircraft with rotation speeds of 100 knots or greater. To use the allowance times in this table, ensure the fluid being used is listed in the Validation Status of Fluids for Use with Allowance Times (Table 53).", "2": "Takeoff is allowed up to 90 minutes after start of fluid application if the precipitation stops at or before the allowance time expires and does not restart. Takeoff is not permitted if the OAT decreases during the 90 minutes in conditions of light ice pellets mixed with either: light freezing drizzle; light drizzle; light freezing rain; light rain; light rain and light snow; or light freezing rain and light snow, as well as in conditions of moderate ice pellets mixed with either: light or moderate freezing drizzle; light or moderate drizzle; or moderate rain.", "3": "Ensure that the lowest operational use temperature (LOUT) is respected.", "4": "No allowance times exist for PG-based fluids when used on aircraft with rotation speeds less than 100 knots.", "5": "No allowance times exist for PG-based fluids when used on aircraft with rotation speeds less than 115 knots.", "6": "Applicable METAR codes include only Ice Pellet conditions (i.e., PL). While allowance times can be used when Small Hail is reported instead of Ice Pellets, the corresponding METAR codes for Small Hail are not listed in the table.", "7": "The reporting of Small Hail by METAR varies by country, which can result in different HOTs or allowance times when the same METAR code is used in different regions. For details, refer to the METAR Codes and Holdover or Allowance Times Used by Country table in the FAA Ground Deicing Program General Information Document.", "8": "If the METAR does not report an intensity for small hail, use the “moderate ice pellets or small hail” allowance times. If the METAR reports an intensity with small hail, the condition with the equivalent intensity can be used, e.g., if light small hail is reported, the “light ice pellets” allowance times can be used. This also applies in mixed conditions, e.g., if light small hail mixed with light snow is reported, use the “light ice pellets mixed with light snow” allowance times."}};
+const AT_COLS = ["ABOVE 0C","0 TO -5C","-5 TO -10C","-10 TO -16C","-16 TO -22C"];
+const atCol = o => o > 0 ? 0 : o >= -5 ? 1 : o >= -10 ? 2 : o >= -16 ? 3 : o >= -22 ? 4 : -1;
+const FLUIDS = [["IV","100/0"],["IV","75/25"],["IV","50/50"],["IAL",null],["ICOMP",null]];
+const NOTE_NO = {IV:{fzdz:6, snra:7, zero:8, m10:10}, I:{fzdz:8, snra:9, zero:10}};
+const COL_NAME = {FZFG:"Freezing Fog/Mist/Ice Crystals", SN_FZFG:"Snow mixed with Freezing Fog", VLSN:"Very Light Snow", LSN:"Light Snow", MSN:"Moderate Snow", FZDZ:"Freezing Drizzle", LFZRA:"Light Freezing Rain", MSN_RA:"Moderate Snow mixed with Rain", RCSW:"Rain on Cold-Soaked Wing"};
+const COL_CDU = {FZFG:"FZFG", SN_FZFG:"SN+FZFG", VLSN:"VL SN", LSN:"LT SN", MSN:"MOD SN", FZDZ:"FZDZ", LFZRA:"-FZRA", MSN_RA:"MOD SN+RA", RCSW:"RA CS WING"};
+const WX = {
+  FZFG:   {cdu:"FZFG/BR/IC", lbl:"FZ FG/BR/ICE CRYSTAL"},
+  SN_FZFG:{cdu:"SN+FZFG",   lbl:"SN + FZ FOG"},
+  SN:     {cdu:"SN/SG/GS",  lbl:"SN/SN GRAIN/SN PELLET"},
+  FZDZ:   {cdu:"FZDZ",      lbl:"FZ DRIZZLE"},
+  LFZRA:  {cdu:"-FZRA",     lbl:"LT FZ RAIN"},
+  SNRA:   {cdu:"SNRA/DZ",  lbl:"MOD SN + RA"},
+  RCSW:   {cdu:"RA CS WING",lbl:"RA COLD-SOAK"},
+  OTHER:  {cdu:"OTHERS",    lbl:"+SN/PL/FZRA/+FZRA/GR/GS"},
+  FROST:  {cdu:"FROST",     lbl:"ACTIVE FROST"},
+  PL:     {cdu:"AT TYPE IV PG",lbl:"ICE PELLETS"},
+};
+// WX page follows the FAA document order: Table 1 active frost, then HOT table columns, then Table 56 ice pellets
+const WX_L = ["FROST","FZFG","SN_FZFG","SN","OTHER"], WX_R = ["FZDZ","LFZRA","SNRA","RCSW","PL"];
+const LOUT = {"100/0":-28, "75/25":-14.5, "50/50":-3.5};
+const CONCS = ["100/0","75/25","50/50"];
+const INT = {H:"HEAVY", M:"MODERATE", L:"LIGHT", VL:"VERY LIGHT"};
+const INT_SEQ = ["AUTO","VL","L","M","H"];
+
+// Table 57: visibility (m) upper bound -> [Day <=-1C, Day >-1C, Night <=-1C, Night >-1C]
+const T57 = [[600,"HHHH"],[1000,"MHHH"],[1400,"MMMH"],[1800,"LLMM"],[2200,"LLMM"],[2600,"LLMM"],
+             [3000,"VLLL"],[3600,"VVLL"],[4400,"VVLL"],[5200,"VVVL"],[Infinity,"VVVV"]];
+function snowIntensity(vis, night, oat) {
+  const row = T57.find(r => vis <= r[0]);
+  const c = row[1][(night ? 2 : 0) + (oat <= -1 ? 0 : 1)];
+  return c === "V" ? "VL" : c;
+}
+const inRange = ([lo, hi], oat) => (lo === null || oat >= lo) && (hi === null || oat < hi);
+const toMin = s => { const [h,m] = s.split(":").map(Number); return h*60 + m; };
+const addMin = (t, m) => { const x = (t + m) % 1440; return String(Math.floor(x/60)).padStart(2,"0") + String(x%60).padStart(2,"0"); };
+
+// ---------- state ----------
+const KEY = "abcsplus.hot.v1";
+const S = { page:"MAIN", pl:0, plPage:0, fluid:"IV", conc:"100/0", oat:null, wx:"SN", vis:null, night:false, intMode:"AUTO", adj:false, start:null, sp:"", msg:"", infoPage:0 };
+try { const s = JSON.parse(localStorage.getItem(KEY) || "{}"); for (const k of ["fluid","conc","wx","pl","night","intMode","adj"]) if (s[k] !== undefined) S[k] = s[k]; } catch (e) {}
+if (!CONCS.includes(S.conc)) S.conc = "100/0";
+if (!["IV","IAL","ICOMP"].includes(S.fluid)) S.fluid = "IV";
+if (!(S.pl >= 0 && S.pl < AT.rows.length)) S.pl = 0;
+const isI = () => S.fluid !== "IV";
+const nn = k => NOTE_NO[isI() ? "I" : "IV"][k];
+if (!WX[S.wx]) S.wx = "SN";
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify({pl:S.pl, fluid:S.fluid, conc:S.conc, wx:S.wx, night:S.night, intMode:S.intMode, adj:S.adj})); } catch (e) {} };
+
+// ---------- calculation (same rules as v1) ----------
+function compute() {
+  const {conc, oat, wx, adj} = S;
+  const R = { hot:null, none:null, short:"", msgs:[], info:[], col:null, rowLbl:null, inten:null, src: S.fluid === "IV" ? (adj ? "ADJ-43" : "T43") : S.fluid === "IAL" ? (adj ? "ADJ-2" : "T2") : (adj ? "ADJ-3" : "T3") };
+  const snowy = ["SN","SN_FZFG","SNRA"].includes(wx);
+  if (oat === null) { R.short = "ENTER OAT"; return R; }
+  if (wx === "FROST") {
+    R.src = adj ? "ADJ-1" : "T1";
+    if (isI()) {
+      const v = TI.frost[S.fluid][adj ? 1 : 0];
+      const fr = TI.frostRange;
+      if (fr && inRange(fr, oat)) { R.hot = [v]; R.rowLbl = "TYPE I"; }
+      else if (fr) { R.none = "이 OAT에는 Type I Active Frost HOT가 없습니다 (Table 1)."; R.short = "NO HOT THIS OAT"; }
+      else { R.none = `Type I frost ${v}: Table 1에서 적용 OAT 범위(병합 칸)를 Word판으로 확인 중이라 아직 표시하지 않습니다.`; R.short = "TYPE I FROST: PENDING"; }
+      R.msgs.push(["warn","Type I 혼합액의 어는점은 OAT보다 최소 10 °C 낮아야 합니다 (Table 1 Note 2)."]);
+      R.msgs.push(["warn","서리 지속 중 OAT가 내려가면, 도포 후 이륙까지 가장 낮았던 OAT의 HOT를 사용합니다 (Table 1 Note 4)."]);
+      R.info.push("COLDEST OAT SINCE APPL (N4)");
+      return R;
+    }
+    const r = (adj ? D.frostAdj : D.frost).find(r => r.conc === conc && inRange(r.range, oat));
+    if (r) { R.hot = [r.typeIV]; R.rowLbl = r.oat; }
+    else if (oat < -25) { R.none = "−25 °C 미만: No Holdover Time Guidelines Exist (Table 1)"; R.short = "NO HOT BELOW -25C"; }
+    else { R.none = `${conc}: 이 OAT의 Active Frost HOT가 Table 1에 없습니다.`; R.short = "NO HOT THIS CONC/OAT"; }
+    R.msgs.push(["warn","서리 지속 중 OAT가 내려가면, 도포 후 이륙까지 가장 낮았던 OAT의 HOT를 사용합니다 (Table 1 Note 4)."]);
+    R.info.push("COLDEST OAT SINCE APPL (N4)");
+    return R;
+  }
+  if (wx === "PL") {
+    const row = AT.rows[S.pl], ci = atCol(oat);
+    R.src = adj ? "ADJ-55" : "T56"; R.rowLbl = row.codes.join(" "); R.atCol = ci;
+    R.msgs.push(["warn","Allowance time은 기체 점검(inspection)으로 연장할 수 없습니다 (66쪽 Caution)."]);
+    if (isI()) { R.none = "Type I에는 Allowance Time이 없습니다. Type III/IV 100/0만 해당 (Table 53 Note 1)."; R.short = "NO AT FOR TYPE I"; return R; }
+    if (conc !== "100/0") { R.none = "Allowance Time은 희석하지 않은 100/0 PG 유체에만 있습니다 (Table 56 Note 1)."; R.short = "AT 100/0 ONLY"; return R; }
+    const v = ci < 0 ? null : row[adj ? "adj" : "std"][ci];
+    if (ci < 0) { R.none = "−22 °C 미만: Allowance Time 없음 (Table 56)."; R.short = "NO AT BELOW -22C"; return R; }
+    if (v == null) { R.none = `${AT_COLS[ci]} 구간: 이 조건의 Allowance Time 없음 (Table 56).`; R.short = "NO AT THIS OAT"; return R; }
+    R.at = v;
+    R.msgs.push(["warn", "강수가 Allowance Time 만료 전에 그치고 다시 오지 않으면, 도포 시작 후 90분까지 이륙 가능합니다. 단, PL에 비·이슬비·어는비 등이 섞인 조건에서는 그 90분 동안 OAT가 내려가면 이륙할 수 없습니다 (Note 2)."]);
+    R.msgs.push(["warn", ci >= 3 ? "−10 °C 미만 칸은 rotation speed 115 kt 이상 항공기에만 적용 (Note 5)." : "rotation speed 100 kt 이상 항공기에만 적용 (Note 1·4)."]);
+    if (S.pl === 8 || S.pl === 9) R.msgs.push(["warn","METAR에 small hail 강도 표기가 없으면 moderate ice pellets AT를 사용합니다 (Note 8)."]);
+    R.info.push("STOPS BEFORE AT: TO 90 MIN", "FROM START (N2)", "AT NOT EXTENDABLE BY INSP");
+    return R;
+  }
+  if (wx === "OTHER" && isI()) {
+    R.none = "HOT 없음 (Other 조건, Table 2/3 Note 11). Allowance Time은 Type III/IV(100/0)에만 있습니다 (Table 53 Note 1).";
+    R.short = "NO HOT (TYPE I)"; return R;
+  }
+  if (wx === "OTHER") {
+    R.none = "HOT 없음 (Other: heavy snow, moderate/heavy freezing rain, hail). Ice pellets·small hail은 WX 페이지의 AT TYPE IV PG(R5)를 선택하면 Table 56 Allowance Time을 보여 드립니다.";
+    R.short = "NO HOT"; R.info.push("PL/GS: SELECT AT TYPE IV PG");
+    return R;
+  }
+  let inten = null;
+  if (snowy) {
+    if (S.intMode === "AUTO") {
+      if (S.vis === null) { R.short = "ENTER VIS"; R.msgs.push(["warn","눈 조건은 시정(m)을 입력해야 강도를 판정합니다 (Table 57). 또는 L4에서 강도를 직접 고르십시오."]); return R; }
+      inten = snowIntensity(S.vis, S.night, oat);
+    } else inten = S.intMode;
+    R.inten = inten;
+    if (inten === "H") { R.none = "Heavy 강도: HOT 없음 (Table 57 사용 Note)."; R.short = "HEAVY - NO HOT"; return R; }
+  }
+  let col;
+  if (wx === "SN") col = {VL:"VLSN", L:"LSN", M:"MSN"}[inten];
+  else if (wx === "SNRA") {
+    if (inten === "M") col = "MSN_RA";
+    else { col = "LFZRA"; R.msgs.push(["warn",`Very light/Light snow + rain/drizzle → Light Freezing Rain HOT 사용 (Note ${nn("snra")}).`]); R.info.push(`VL/LT SN+RA: USE -FZRA (N${nn("snra")})`); }
+  } else col = wx;
+  R.col = col;
+  const rowsSrc = S.fluid === "IV" ? (adj ? D.adj : D.std) : TI[(S.fluid === "IAL" ? "al" : "comp") + (adj ? "Adj" : "")];
+  const r = rowsSrc.find(r => (isI() || r.conc === conc) && inRange(r.range, oat));
+  R.rowLbl = r ? r.oat : null;
+  const v = r ? r.cells[col] : undefined;
+  if (["MSN_RA","RCSW"].includes(col) && oat <= 0) { R.none = `0 °C 이하: 이 조건의 HOT 없음 (Note ${nn("zero")}).`; R.short = "NO HOT AT/BELOW 0C"; }
+  else if (["FZDZ","LFZRA"].includes(col) && oat < -10) { R.none = isI() ? "−10 °C 미만: 이 조건의 HOT 없음 (Table 2/3 해당 칸 없음)." : "−10 °C 미만: 이 조건의 HOT 없음 (Note 10)."; R.short = "NO HOT BELOW -10C"; }
+  else if (!r) { R.none = isI() ? "이 OAT에 대한 행이 표에 없습니다." : `${conc}: 이 OAT에 대한 행이 표에 없습니다 (LOUT ${LOUT[conc]} °C 또는 표 범위 밖).`; R.short = "NO HOT: OAT/LOUT"; }
+  else if (v === "N/A") { R.none = "N/A (표 원문 표기)"; R.short = "N/A"; }
+  else if (!v) { R.none = "표에 값이 없습니다 (No holdover time guidelines exist)."; R.short = "NO HOT GUIDELINE"; }
+  else { R.hot = v; if (v[2]) { R.msgs.push(["warn", `Note ${v[2]}: ${D.notes[v[2]]}`]); R.info.push(`NOTE ${v[2]}: NO HOT BELOW -10C`); } }
+  if (isI()) { R.msgs.push(["warn","Type I 혼합액의 어는점은 OAT보다 최소 10 °C 낮아야 하고, LOUT을 지켜야 합니다 (Table 2/3 Note 2·3)."]); R.info.push("FP 10C BELOW OAT (N2)"); }
+  if (col === "FZDZ") { R.msgs.push(["warn",`Freezing drizzle을 확실히 식별할 수 없으면 Light Freezing Rain HOT 사용 (Note ${nn("fzdz")}).`]); R.info.push(`FZDZ UNSURE: USE -FZRA (N${nn("fzdz")})`); }
+  return R;
+}
+
+// ---------- CDU helpers ----------
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const t = (s, cls = "") => `<span class="${cls}">${esc(s)}</span>`;
+const boxes = n => `<span class="boxes">${"<i></i>".repeat(n)}</span>`;
+const ln = (cls, l = "", r = "", c = "") => `<div class="ln ${cls}"><span class="l">${l}</span><span class="c">${c}</span><span class="r">${r}</span></div>`;
+const fmtOat = v => (v > 0 ? "+" : "") + (Number.isInteger(v) ? v.toFixed(0) : v.toFixed(1));
+const shortRow = lbl => lbl ? lbl.replace(" °C and above"," & ABOVE").replace("below ","").replace(" to "," TO ").replace(" °C","C").toUpperCase() : "----";
+const hotText = h => h[1] ? `${h[0]}-${h[1]}` : h[0];
+
+function pageMain() {
+  const R = compute(), snowy = ["SN","SN_FZFG","SNRA"].includes(S.wx);
+  const concDat = S.fluid === "IV" ? `<span class="cyan">&lt;ABC<span style="margin:0 -.22em">-</span>S PLUS </span>` + t(S.conc, "cyan") : t("<TYPE I " + (S.fluid === "IAL" ? "ALUM" : "COMPOSITE"), "cyan");
+  const oatDat = S.oat === null ? boxes(3) : t(fmtOat(S.oat) + "°C", "cyan");
+  const flapDat = S.adj ? t("DN 76%", "amber") + t(">", "white") : t("UP", "cyan") + t(">", "white");
+  const visDat = !snowy ? t("---", "dim") : S.vis === null ? boxes(4) : t(String(S.vis), "cyan");
+  let intDat;
+  if (!snowy) intDat = t("---", "dim");
+  else if (S.intMode === "AUTO") intDat = t("<AUTO ", "cyan") + (R.inten ? t(INT[R.inten], R.inten === "H" ? "red" : "green") : t("----", "dim"));
+  else intDat = t("<MAN ", "amber") + t(INT[S.intMode], S.intMode === "H" ? "red" : "cyan");
+  const dnDat = snowy ? t(S.night ? "NIGHT" : "DAY", "cyan") + t(">", "white") : t("---", "dim");
+  let hotDat, expDat = t("----", "dim"), hotLbl = "HOT [HH:MM]", expLbl = "EXPIRES";
+  if (R.at) {
+    hotLbl = "ALLOWANCE TIME"; expLbl = "AT EXPIRES / 90 MIN";
+    hotDat = t(R.at + " MIN", "green big");
+    if (S.start !== null) expDat = t(addMin(S.start, R.at) + " / " + addMin(S.start, 90), "green");
+  } else if (R.hot) {
+    hotDat = t(hotText(R.hot), "green big");
+    if (S.start !== null) expDat = t(R.hot[1] ? `${addMin(S.start, toMin(R.hot[0]))}-${addMin(S.start, toMin(R.hot[1]))}` : addMin(S.start, toMin(R.hot[0])), "green");
+  } else if (R.none && S.wx === "OTHER") { hotDat = '<span class="verdict nogo">NO HOT</span>'; expLbl = "SELECT"; expDat = t("<AT TYPE IV PG", "red"); }
+  else if (R.none) { hotDat = '<span class="verdict nogo">NO HOT</span>'; hotLbl = esc(R.short); }
+  else { hotDat = R.short ? t(R.short, "red") : t("----", "dim"); }
+  const startDat = S.start === null ? boxes(4) : t(String(Math.floor(S.start/60)).padStart(2,"0") + String(S.start%60).padStart(2,"0"), "cyan");
+  return {
+    title: ln("ttl", t(R.src, "green small"), t(S.fluid === "IV" ? "TYPE IV" : "TYPE I", "green small"), "FAA HOLDOVER TIME"),
+    rows: [
+      [S.fluid === "IV" ? "FLUID/CONC LOUT " + LOUT[S.conc] + "C" : "FLUID FZ PT AT LEAST OAT-10C", "FLAP/SLAT"], [concDat, flapDat],
+      ["OAT", "VIS (M)"], [oatDat, visDat],
+      ["WX DATA", "DAY/NIGHT"], [t("<" + (S.wx === "PL" ? AT.rows[S.pl].codes[0] : WX[S.wx].cdu), "cyan" + (S.wx !== "PL" && WX[S.wx].small ? " small" : "")), dnDat],
+      ["SNOW INTENSITY", "START"], [intDat, startDat],
+      [hotLbl, ""], [hotDat, ""],
+      [expLbl, ""], [expDat, t("INFO>", "white")],
+    ],
+  };
+}
+function pageWx() {
+  const L = WX_L, Rr = WX_R;
+  const rows = [];
+  for (let i = 0; i < 5; i++) {
+    const a = L[i], b = Rr[i];
+    rows.push([a ? esc(WX[a].lbl) : "", b ? esc(WX[b].lbl) : ""],
+              [a ? t("<" + WX[a].cdu, (S.wx === a ? "green" : "cyan") + (WX[a].small ? " small" : "")) : "", b ? t(WX[b].cdu + ">", S.wx === b ? "green" : "cyan") : ""]);
+  }
+  rows.push(["", ""], [t("<RETURN", "white"), ""]);
+  return { title: ln("ttl", "", t("TABLE ORDER", "white small"), "WX CONDITION"), rows };
+}
+const PL_SHORT = ["LT PL/GS","LT PL/GS+LT SN","LT PL/GS+LT FZDZ","LT PL/GS+LT DZ","LT PL/GS+LT FZRA","LT PL/GS+LT RA","LT PL/GS+FZRA+SN","LT PL/GS+RA+SN","MOD PL/GS","MOD PL/GS+MOD SN","MOD PL/GS+FZDZ","MOD PL/GS+DZ","MOD PL/GS+MOD RA"];
+// LT conditions on page 1, MOD conditions on page 2 (Captain, 2026-11-27)
+const PL_PAGES = [{L:[0,1,2,3,4], R:[5,6,7]}, {L:[8,9,10,11,12], R:[]}];
+function pagePl() {
+  const pages = PL_PAGES.length, P = PL_PAGES[S.plPage], rows = [];
+  for (let i = 0; i < 5; i++) {
+    const a = P.L[i], b = P.R[i], A = a == null ? null : AT.rows[a], B = b == null ? null : AT.rows[b];
+    rows.push([A ? esc(PL_SHORT[a]) : "", B ? esc(PL_SHORT[b]) : ""],
+      [A ? t("<" + A.codes[0], S.wx === "PL" && S.pl === a ? "green" : "cyan") : "", B ? t(B.codes[0] + ">", S.wx === "PL" && S.pl === b ? "green" : "cyan") : ""]);
+  }
+  rows.push(["", ""], [t("<RETURN", "white"), t("MORE>", "white")]);
+  return { title: ln("ttl", "", t((S.plPage + 1) + "/" + pages, "white small"), "ICE PELLETS"), rows };
+}
+function infoLines() {
+  const R = compute(), out = [];
+  out.push(["SOURCE", S.fluid === "IV" ? "CONC/LOUT" : "FLUID"], [t("TABLE " + R.src.replace(/^T/,""), "green"), t(S.fluid === "IV" ? S.conc + " " + LOUT[S.conc] + "C" : (S.fluid === "IAL" ? "TYPE I ALUM" : "TYPE I COMP"), "green")]);
+  if (S.wx === "PL") out.push(["CONDITION", "OAT COLUMN"], [t(AT.rows[S.pl].codes[0], "green small"), t(R.atCol >= 0 ? AT_COLS[R.atCol] : "----", "green small")]);
+  else out.push(["OAT ROW", "COLUMN"], [t(shortRow(R.rowLbl), "green small"), t(R.col ? COL_CDU[R.col] : (S.wx === "FROST" ? (isI() ? "TYPE I" : "TYPE IV") : "----"), "green small")]);
+  const notes = [...R.info];
+  if (S.adj) notes.push("FLAP/SLAT DN: 76% HOT (APP A)");
+  notes.push("HVY WX/WIND/JET BLAST", "MAY REDUCE BELOW MIN", "DEPARTURE PLANNING ONLY");
+  for (let i = 0; i < notes.length; i += 2) out.push([i === 0 ? "NOTES" : "", ""], [t(notes[i], "amber small"), ""], ...(notes[i+1] !== undefined ? [["", ""], [t(notes[i+1], "amber small"), ""]] : []));
+  // normalise to pairs
+  const pairs = []; for (let i = 0; i < out.length; i += 2) pairs.push([out[i], out[i+1]]);
+  return pairs;
+}
+function pageInfo() {
+  const pairs = infoLines(), per = 5, pages = Math.max(1, Math.ceil(pairs.length / per));
+  if (S.infoPage >= pages) S.infoPage = 0;
+  const rows = [];
+  for (let i = 0; i < per; i++) { const p = pairs[S.infoPage * per + i]; rows.push(p ? p[0] : ["",""], p ? p[1] : ["",""]); }
+  rows.push(["", ""], [t("<RETURN", "white"), t("MORE>", pages > 1 ? "white" : "dim")]);
+  return { title: ln("ttl", "", t((S.infoPage + 1) + "/" + pages, "white small"), "HOT INFO"), rows };
+}
+function pageData() {
+  return { title: ln("ttl", "", "", "DATA STATUS"), rows: [
+    ["TYPE IV FLUID", "GLYCOL"], [t("KILFROST ABC-S PLUS", "green small"), t("PG", "green")],
+    ["FAA HOT GUIDELINES", "ISSUE"], [t("WINTER 2026-2027", "green small"), t("11AUG26", "green small")],
+    ["LOUT 100/75/50 (HI SPD)", ""], [t("-28 / -14.5 / -3.5 C", "green small"), ""],
+    ["CROSS-CHECK T43 / T2 / T3", ""], [t("ADJ 76% OK, DOCX MATCH", "green small"), ""],
+    ["TYPE I", ""], [t("GENERIC T2 ALUM / T3 COMP", "green small"), ""],
+    ["STATUS", ""], [t("TRAINING USE ONLY", "amber small"), t("RETURN>", "white")],
+  ] };
+}
+
+// ---------- render ----------
+const scr = document.getElementById("screen");
+let discKey = null;
+function render() {
+  const p = S.page === "PLSEL" ? pagePl() : S.page === "WX" ? pageWx() : S.page === "INFO" ? pageInfo() : S.page === "DATA" ? pageData() : pageMain();
+  let html = p.title;
+  p.rows.forEach((pair, i) => { html += ln(i % 2 === 0 ? "lbl" : "dat", pair[0], pair[1]); });
+  let spHtml = ln("sp", S.msg ? t(S.msg, "amber") : t(S.sp, "white"));
+  if (S.page === "MAIN" && !S.msg && !S.sp && S.start !== null) {
+    const R = compute();
+    // slide the note once each time a new HOT/AT + start time appears (Captain, 2026-11-27)
+    const key = JSON.stringify([S.fluid, S.conc, S.adj, S.wx, S.pl, S.oat, S.vis, S.night, S.intMode, S.start, R.hot, R.at]);
+    const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if ((R.hot || R.at) && (still || key !== discKey)) { discKey = key; spHtml = '<div class="disc white"><span>THE RESPONSIBILITY FOR THE APPLICATION OF THESE DATA REMAINS WITH THE USER</span></div>'; }
+  }
+  scr.innerHTML = html + spHtml;
+  renderRef();
+}
+function renderRef() {
+  const R = compute();
+  const head = document.getElementById("refHead");
+  if (R.at) head.textContent = `Allowance Time ${R.at}분 (Table ${S.adj ? "Adj-55" : "56"})`;
+  else if (R.hot) head.textContent = `HOT ${hotText(R.hot).replace("-", " ~ ")} (h:mm)`;
+  else head.textContent = R.none ? (S.wx === "PL" ? "Allowance Time 없음" : "HOT 없음") : "입력을 기다리는 중";
+  const msgs = [];
+  if (R.none) msgs.push(["bad", R.none]);
+  if (R.inten && S.intMode === "AUTO") msgs.push(["warn", `Table 57: 시정 ${S.vis} m, ${S.night ? "야간" : "주간"}, OAT ${S.oat} °C → ${INT[R.inten]} snow. RVR은 사용 불가.`]);
+  msgs.push(...R.msgs);
+  if (R.hot && R.hot[1]) msgs.push(["warn","범위의 짧은 쪽은 강한 강수·높은 수분량, 긴 쪽은 약한 쪽입니다. 강풍·jet blast·blowing snow는 하한보다 짧게 만들 수 있습니다 (Cautions)."]);
+  if (S.adj) msgs.push(["warn","Flaps/slats를 de/anti-icing 전에 내린 경우의 조정 HOT(표준의 76%, Appendix A)입니다."]);
+  const m = document.getElementById("msgs"); m.textContent = "";
+  for (const [k, txt] of msgs) { const d = document.createElement("div"); d.className = k; d.textContent = txt; m.appendChild(d); }
+  const cu = document.getElementById("cautions"); cu.textContent = "";
+  for (const c of CAUTIONS[S.wx === "PL" ? "66" : S.wx === "FROST" ? "9" : isI() ? "11" : "32"]) { const li = document.createElement("li"); li.textContent = c; cu.appendChild(li); }
+  const no = document.getElementById("notes"); no.textContent = "";
+  for (const [k, txt] of Object.entries(S.wx === "PL" ? AT.notes : S.wx === "FROST" ? D.frostNotes : isI() ? TI.notes : D.notes)) { const li = document.createElement("li"); li.value = +k; li.textContent = txt; no.appendChild(li); }
+  drawTable(R);
+}
+function drawTable(R) {
+  const el = document.getElementById("tbl");
+  if (S.wx === "PL") {
+    const k = S.adj ? "adj" : "std";
+    el.innerHTML = `<table class="grid"><tr><th>METAR</th>${AT_COLS.map(c => `<th>${c}</th>`).join("")}</tr>` +
+      AT.rows.map((r, i) => `<tr><td>${esc(r.codes[0])}</td>${r[k].map((v, j) => `<td class="${i === S.pl && j === R.atCol && v != null ? "hit" : ""}">${v == null ? "" : v}</td>`).join("")}</tr>`).join("") + `</table>`;
+    return;
+  }
+  if (S.wx === "FROST" && isI()) { el.textContent = "Type I Active Frost: Aluminum " + TI.frost.IAL[S.adj?1:0] + ", Composite " + TI.frost.ICOMP[S.adj?1:0] + " (Table " + (S.adj ? "Adj-1" : "1") + ")"; return; }
+  if (S.wx === "FROST") {
+    const rows = S.adj ? D.frostAdj : D.frost;
+    el.innerHTML = `<table class="grid"><tr><th>OAT</th><th>Conc</th><th>Type IV</th></tr>` +
+      rows.map(r => `<tr><td>${esc(r.oat)}</td><td>${r.conc}</td><td class="${r.oat === R.rowLbl && r.conc === S.conc ? "hit" : ""}">${r.typeIV}</td></tr>`).join("") + `</table>`;
+    return;
+  }
+  const cols = Object.keys(COL_NAME), rows = S.fluid === "IV" ? (S.adj ? D.adj : D.std) : TI[(S.fluid === "IAL" ? "al" : "comp") + (S.adj ? "Adj" : "")];
+  el.innerHTML = `<table class="grid"><tr><th>OAT</th><th>Conc</th>${cols.map(c => `<th>${COL_CDU[c]}</th>`).join("")}</tr>` +
+    rows.map(r => `<tr><td>${esc(r.oat)}</td><td>${r.conc || "-"}</td>${cols.map(c => {
+      const v = r.cells[c]; const tx = !v ? "" : v === "N/A" ? "N/A" : `${v[0]}-${v[1]}${v[2] ? "<sup>" + v[2] + "</sup>" : ""}`;
+      return `<td class="${r.oat === R.rowLbl && (isI() || r.conc === S.conc) && c === R.col ? "hit" : ""}">${tx}</td>`; }).join("")}</tr>`).join("") + `</table>`;
+}
+
+// ---------- input ----------
+const err = m => { S.msg = m; render(); };
+const ok = () => { S.sp = ""; S.msg = ""; save(); render(); };
+const go = pg => { S.page = pg; S.msg = ""; if (pg === "INFO") S.infoPage = 0; render(); };
+function parseOat(sp) {
+  const m = sp.match(/^(M|-)?(\d{1,2}(?:\.\d)?)$/);
+  if (!m) return null;
+  const v = +m[2] * (m[1] ? -1 : 1);
+  return v < -60 || v > 40 ? NaN : v;
+}
+function lskMain(id) {
+  const sp = S.sp;
+  switch (id) {
+    case "L1": { const i = FLUIDS.findIndex(f => f[0] === S.fluid && (f[1] === null || f[1] === S.conc)); const n = FLUIDS[(i + 1) % FLUIDS.length]; S.fluid = n[0]; if (n[1]) S.conc = n[1]; return ok(); }
+    case "R1": S.adj = !S.adj; return ok();
+    case "L2":
+      if (sp === "CLR") { S.oat = null; return ok(); }
+      if (!sp) return err("ENTER OAT IN SCRATCHPAD");
+      { const v = parseOat(sp); if (v === null) return err("FORMAT ERROR"); if (isNaN(v)) return err("ENTRY OUT OF RANGE"); S.oat = v; return ok(); }
+    case "R2":
+      if (sp === "CLR") { S.vis = null; return ok(); }
+      if (!/^\d{2,4}$/.test(sp)) return err(sp ? "FORMAT ERROR" : "ENTER VIS (M)");
+      S.vis = +sp; return ok();
+    case "L3": return go("WX");
+    case "R3": S.night = !S.night; return ok();
+    case "L4": S.intMode = INT_SEQ[(INT_SEQ.indexOf(S.intMode) + 1) % INT_SEQ.length]; return ok();
+    case "R4":
+      if (sp === "CLR") { S.start = null; return ok(); }
+      { const m = sp.match(/^(\d{2})\.?(\d{2})$/); if (!m) return err(sp ? "FORMAT ERROR" : "ENTER HHMM");
+        const h = +m[1], mi = +m[2]; if (h > 23 || mi > 59) return err("ENTRY OUT OF RANGE");
+        S.start = h * 60 + mi; return ok(); }
+    case "R6": return go("INFO");
+    case "L5": case "L6": if (S.wx === "OTHER") { S.plPage = 0; return go("PLSEL"); } return;
+  }
+}
+function lsk(id) {
+  if (S.page === "MAIN") return lskMain(id);
+  if (S.page === "WX") {
+    const L = WX_L, Rr = WX_R;
+    if (id === "L6") return go("MAIN");
+    const i = +id[1] - 1, x = id[0] === "L" ? L[i] : Rr[i];
+    if (x === "PL") { S.plPage = 0; return go("PLSEL"); }
+    if (x) { S.wx = x; save(); return go("MAIN"); }
+    return;
+  }
+  if (S.page === "PLSEL") {
+    if (id === "L6") return go("WX");
+    if (id === "R6") { S.plPage = (S.plPage + 1) % PL_PAGES.length; return render(); }
+    const P = PL_PAGES[S.plPage], i = (id[0] === "L" ? P.L : P.R)[+id[1] - 1];
+    if (i != null && AT.rows[i]) { S.wx = "PL"; S.pl = i; save(); return go("MAIN"); }
+    return;
+  }
+  if (S.page === "INFO") { if (id === "L6") return go("MAIN"); if (id === "R6") { S.infoPage++; return render(); } return; }
+  if (S.page === "DATA") { if (id === "R6" || id === "L6") return go("MAIN"); }
+}
+function key(k) {
+  if (k === "CLR") { if (S.msg) S.msg = ""; else if (S.sp && S.sp !== "CLR") S.sp = ""; else S.sp = S.sp === "CLR" ? "" : "CLR"; return render(); }
+  if (k === "DEL") { if (S.msg) S.msg = ""; else S.sp = S.sp === "CLR" ? "" : S.sp.slice(0, -1); return render(); }
+  S.msg = ""; if (S.sp === "CLR") S.sp = "";
+  if (S.sp.length < 12) S.sp += k;
+  render();
+}
+
+const mk = side => {
+  const col = document.getElementById(side === "L" ? "lsksL" : "lsksR");
+  for (let i = 1; i <= 6; i++) {
+    const b = document.createElement("button");
+    b.className = "lsk"; b.id = "lsk-" + side + i; b.setAttribute("aria-label", "Line select key " + side + i);
+    b.style.gridRow = String(i * 2 + 1);
+    b.addEventListener("click", () => lsk(side + i));
+    col.appendChild(b);
+  }
+};
+mk("L"); mk("R");
+document.querySelectorAll("[data-k]").forEach(b => b.addEventListener("click", () => { if (b.dataset.k !== "SPACE") key(b.dataset.k); }));
+document.querySelectorAll("[data-fn]").forEach(b => b.addEventListener("click", () => go(b.dataset.fn)));
+document.addEventListener("keydown", e => {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const k = e.key;
+  if (/^[0-9./-]$/.test(k)) { key(k); e.preventDefault(); }
+  else if (/^[mM]$/.test(k)) { key("M"); e.preventDefault(); }
+  else if (k === "Backspace") { key("DEL"); e.preventDefault(); }
+  else if (k === "Escape" || k === "Delete") { key("CLR"); e.preventDefault(); }
+});
+window.__hot = { S, compute, render, lsk, key };
+render();
+}
+</script>
+
+</body>
+</html>

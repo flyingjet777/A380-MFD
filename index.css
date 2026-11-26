@@ -1,0 +1,708 @@
+:root {
+    --bg-color: #080a0f;
+    --fms-bezel-color: #1a1d24;
+    --fms-screen-bg: #111419;
+    --text-green: #3efc4b; /* Active green for target data */
+    --text-cyan: #2ef2f6;  /* Cyan for standard variables */
+    --text-white: #ffffff;
+    --text-gray: #a6afbc;
+    --text-red: #cc3333;   /* Slightly lower brightness crimson red for nighttime vision protection */
+    --btn-bg: #40444f;     /* Darker grey-silver body of physical FMS buttons */
+    --btn-border: #808898; /* Outer bevel highlight for physical FMS buttons */
+    --btn-active-bg: #4d5262;
+    --btn-gray-text: #ffffff;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    touch-action: manipulation;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-white);
+    font-family: 'Share Tech Mono', monospace;
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    padding: 10px;
+    margin: 0;
+    overflow: auto; 
+    --scale: 1;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    transform: scale(var(--scale));
+    transform-origin: center center;
+}
+
+/* FMS Bezel - Locked standard sizes back to prevent scroll/overflow */
+.fms-bezel {
+    background: var(--fms-bezel-color);
+    border: 14px solid #232731;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+    width: 580px;
+    height: 740px; 
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.fms-screen {
+    background-color: var(--fms-screen-bg);
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 14px; 
+    overflow: hidden;
+    position: relative;
+    border: 2px solid #000000;
+}
+
+/* CRT Scanline styling */
+.fms-screen::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 20, 25, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+    background-size: 100% 3px;
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0.25;
+}
+
+/* Header bar */
+.fms-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 2px;
+    margin-bottom: 4px;
+    height: 28px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: #191c24;
+    padding: 2px 6px;
+    border: 1.5px solid #3e4452;
+    border-radius: 4px;
+}
+
+.fms-title {
+    color: var(--text-cyan);
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.arrow-down {
+    font-size: 0.6rem;
+    color: var(--text-gray);
+    margin-left: 2px;
+}
+
+.header-right {
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: 0.5px;
+    color: #ffffff;
+}
+
+/* Top Nav menu tab buttons */
+.fms-nav {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    margin-bottom: 8px;
+    height: 32px;
+}
+
+.nav-btn {
+    background-color: var(--btn-bg);
+    border: 2px solid var(--btn-border);
+    color: #cbd5e0;
+    padding: 4px 2px;
+    font-size: 0.75rem;
+    font-family: inherit;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: inset 0 1px 3px rgba(255,255,255,0.1);
+}
+
+.nav-btn.active {
+    background-color: #111419;
+    border: 2px solid var(--text-white);
+    color: #ffffff;
+}
+
+/* ACTIVE / X-WIND / FAA HOT / MEMO는 실제 기능이 있는 버튼이므로 항상 흰색 테두리로 구분 */
+#btn-init, #btn-xwind, #btn-hot, #btn-data {
+    border: 2px solid var(--text-white);
+}
+
+/* Title text underneath menu */
+.page-title-bar {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 2px 6px;
+    font-size: 1rem;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+    height: 24px;
+}
+
+.title-right-indicators {
+    display: flex;
+    gap: 2px;
+}
+
+.indicator-box {
+    width: 20px;
+    height: 10px;
+    background-color: #ffffff;
+    border: 1.5px solid #000000;
+}
+
+/* Main inner content grid */
+.fms-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 4px;
+    height: calc(100% - 64px);
+    /* flex item이 내용 크기만큼 늘어나 푸터(MSG LIST)를 밀어내지 않도록 고정 */
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* Row structure */
+.fms-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    min-height: 32px; 
+}
+
+.fms-cell {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+.cell-left, .cell-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.fms-label {
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    width: 70px;
+    text-align: right;
+    margin-right: 6px;
+    white-space: nowrap;
+}
+
+.fms-label.label-right {
+    width: auto;
+    text-align: left;
+    margin-left: 6px;
+}
+
+/* Hardware Buttons and Box elements matching the screenshot sizes and bevels */
+.fms-val-box, .fms-btn-grey {
+    background-color: var(--btn-bg);
+    border: 2px solid var(--btn-border);
+    color: #ffffff;
+    border-radius: 4px;
+    font-family: inherit;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 28px; 
+    box-shadow: inset 0 1px 3px rgba(255,255,255,0.1), 0 2px 4px rgba(0,0,0,0.5);
+    transition: all 0.1s ease;
+}
+
+.fms-val-box {
+    padding: 1px 6px;
+    cursor: text;
+}
+
+.fms-val-box.extracted-value {
+    border-color: var(--text-green);
+    color: var(--text-green);
+}
+
+.fms-val-box.cyan-text {
+    color: var(--text-cyan);
+}
+
+.fms-val-box.white-text {
+    color: var(--text-white);
+}
+
+.fms-val-box input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: 0.95rem; 
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+}
+
+.fms-btn-grey {
+    padding: 2px 8px;
+    font-size: 0.72rem; 
+    color: #ffffff;
+    cursor: pointer;
+    line-height: 1.1;
+    text-align: center;
+}
+
+.fms-btn-grey:hover {
+    background-color: var(--btn-active-bg);
+}
+
+.divider-line {
+    border: 0;
+    border-top: 1.5px solid #2f3542;
+    margin: 6px 0;
+}
+
+/* Condensed row styling to bring elements closer to the center */
+.fms-row-condensed .fms-cell {
+    padding-left: 55px;
+    padding-right: 55px;
+}
+
+/* First Row proportions */
+.row-flt-nbr .flt-nbr-box {
+    width: 100px !important;
+}
+.row-flt-nbr .acft-box {
+    width: 95px !important;
+}
+.row-flt-nbr .acft-status-btn {
+    width: auto !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}
+/* IMPORT 버튼: 아래 CRZ TEMP 그린 박스와 동일 폭, 오른쪽 끝 정렬 */
+.cpny-request-btn {
+    width: 100px !important;
+}
+/* GATE 버튼: IMPORT(.cpny-request-btn)와 동일 폭, 터미널+게이트 표시 */
+.gate-num-btn {
+    width: 100px !important;
+    font-size: 0.95rem !important;
+    padding: 1px 6px !important;
+}
+
+/* Second Row: FROM/TO/ALTN Airport box sizes */
+.airport-box {
+    width: 70px !important;
+}
+.altn-airport-box {
+    width: 70px !important;
+}
+
+/* Third Row Route selections widths */
+.route-box {
+    width: 140px !important;
+}
+.route-sel-btn {
+    width: 110px !important;
+}
+
+/* Bottom Action Area Layout matching A380 layout exactly */
+.fms-bottom-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 12px;
+    padding-left: 90px; 
+    width: 100%;
+}
+
+.bottom-aligned-row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    gap: 30px; 
+}
+
+/* Base style for buttons vertically aligned to green box */
+.align-target-btn {
+    width: 135px !important;
+}
+
+.rte-summary-aligned-btn {
+    width: 135px !important;
+}
+
+.btn-crew-briefing-trigger {
+    line-height: 1.3;
+}
+
+/* Footer MSG LIST Button & layout */
+.fms-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    border-top: 2px solid #2d3748;
+    padding-top: 6px;
+    height: 38px; 
+}
+
+.msg-btn {
+    background-color: var(--btn-bg);
+    color: #ffffff;
+    border: 2px solid var(--btn-border);
+    padding: 2px 8px;
+    font-family: inherit;
+    font-size: 0.72rem;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    line-height: 1.1;
+    text-align: center;
+    box-shadow: inset 0 1px 3px rgba(255,255,255,0.1), 0 2px 4px rgba(0,0,0,0.5);
+    height: 28px;
+}
+
+/* FUEL & LOAD Table layout and color customizations */
+.fms-fuel-table {
+    width: 100%;
+    margin-top: 10px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.fuel-table-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 0;
+    width: 100%;
+}
+
+.fuel-table-row.header {
+    border-bottom: 1.5px solid #2d3748;
+    color: var(--text-white);
+    font-weight: bold;
+    padding-bottom: 6px;
+    margin-bottom: 4px;
+}
+
+.fuel-table-row > div:nth-child(1) {
+    width: 120px;
+    text-align: left;
+}
+
+.fuel-table-row > div:nth-child(2) {
+    width: 80px;
+    text-align: center;
+}
+
+.fuel-table-row > div:nth-child(3) {
+    width: 80px;
+    text-align: center;
+}
+
+.fuel-table-row > div:nth-child(4) {
+    width: 180px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.footer-msg-list {
+    border-top: none;
+    justify-content: flex-start;
+    margin-top: auto;
+    padding-bottom: 2px;
+}
+
+.btn-msg-list, .btn-return {
+    width: 60px;
+    height: 36px;
+    padding: 2px;
+    text-align: center;
+    line-height: 1.1;
+}
+
+.fuel-table-extra-row {
+    align-items: flex-end;
+}
+
+.fuel-table-extra-row > div:nth-child(1) {
+    padding-left: 0;
+}
+
+.extra-value-container {
+    width: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally relative to the 11.0 value */
+}
+
+.extra-label-sub {
+    font-size: 0.85rem;
+    color: var(--text-white);
+    font-weight: bold;
+    margin-bottom: 2px;
+    text-align: center;
+    width: 140px;
+}
+
+.extra-sub-headers {
+    display: flex;
+    justify-content: space-between;
+    width: 140px;
+    font-size: 0.72rem;
+    color: var(--text-gray);
+    font-weight: bold;
+    margin-bottom: 2px;
+    padding: 0 4px;
+}
+
+.extra-value-container .extra-inner {
+    width: 140px; /* Match the exact width of dest-min-fuel-box */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.text-green-fms {
+    color: var(--text-green);
+    font-weight: bold;
+}
+
+.text-white-fms {
+    color: var(--text-white);
+    font-weight: bold;
+}
+
+.text-cyan-fms {
+    color: var(--text-cyan);
+    font-weight: bold;
+}
+
+.text-gray-fms {
+    color: var(--text-gray);
+    font-weight: bold;
+}
+
+.dest-min-fuel-box {
+    color: var(--text-cyan);
+    font-weight: bold;
+    display: inline-block;
+}
+
+/* FMS Tab Styling for DATA/ROUTE page */
+.fms-tabs {
+    display: flex;
+    border-bottom: 1.5px solid #2f3542;
+    margin-bottom: 8px;
+    width: 100%;
+}
+.fms-tab {
+    padding: 6px 12px;
+    font-size: 0.78rem;
+    font-weight: bold;
+    color: var(--text-gray);
+    cursor: pointer;
+    border: 1.5px solid #2f3542;
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+    flex: 1;
+    text-align: center;
+    margin-right: -1.5px;
+    background-color: transparent;
+    position: relative;
+    z-index: 1;
+}
+.fms-tab:last-child {
+    margin-right: 0;
+}
+.fms-tab.active {
+    color: var(--text-white);
+    background-color: var(--fms-screen-bg);
+    border: 1.5px solid #ffffff;
+    border-bottom: 2px solid var(--fms-screen-bg);
+    margin-bottom: -2px;
+    z-index: 2;
+}
+
+/* Route Summary Table Styling */
+.rte-summary-table {
+    width: 100%;
+    border: 1.5px solid #2f3542;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+    margin-bottom: 6px;
+    background-color: #12141a;
+}
+.rte-summary-table tr {
+    border-bottom: 1px solid #20242e;
+}
+.rte-summary-table tr:last-child {
+    border-bottom: none;
+}
+.rte-summary-table td {
+    padding: 3px 8px;
+    height: 24px;
+    vertical-align: middle;
+}
+
+/* MEL/CDL 테이블: 항목 수/설명 길이와 무관하게 항상 13행 고정 높이 유지 (RETURN 버튼 밀림 방지) */
+.mel-cdl-table {
+    table-layout: fixed;
+    height: 312px;
+}
+.mel-cdl-table td {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/* PDF Debug Comparison Panel */
+.pdf-debug-panel {
+    width: 330px;
+    height: 740px;
+    background-color: #111419;
+    border: 4px solid #232731;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+    font-family: inherit;
+}
+
+.debug-panel-header {
+    background-color: #1a1d24;
+    color: var(--text-cyan);
+    font-weight: bold;
+    font-size: 0.82rem;
+    padding: 10px;
+    text-align: center;
+    border-bottom: 2px solid #232731;
+    letter-spacing: 0.5px;
+}
+
+.debug-panel-body {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.debug-placeholder {
+    color: var(--text-gray);
+    font-size: 0.78rem;
+    text-align: center;
+    margin: auto;
+    line-height: 1.6;
+}
+
+.debug-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.7rem;
+    margin-top: 4px;
+}
+
+.debug-table th {
+    color: var(--text-gray);
+    border-bottom: 1.5px solid #2f3542;
+    padding: 5px 2px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.debug-table th:first-child {
+    text-align: left;
+}
+
+.debug-table td {
+    padding: 5px 2px;
+    border-bottom: 1px solid #1c202a;
+    vertical-align: middle;
+}
+
+.debug-table tr:hover {
+    background-color: #161922;
+}
+
+.debug-field-name {
+    color: var(--text-white);
+    font-weight: bold;
+}
+
+.debug-pdf-val {
+    color: var(--text-cyan);
+    font-weight: bold;
+    text-align: center;
+}
+
+.debug-active-val {
+    color: var(--text-green);
+    font-weight: bold;
+    text-align: center;
+}
+
+.debug-mismatch {
+    color: #ffaa00;
+}
+
+.btn-return, .fms-btn-scroll {
+    border-color: #ffffff !important;
+}
+
+/* CABIN BRIEFING NOTES — contenteditable이라 비어있을 때 placeholder를 CSS로 표시 */
+#cabin-briefing-textarea:empty::before {
+    content: attr(data-placeholder);
+    color: #666;
+}
+
+
+/* X-WIND / FAA HOT: 각 계산기를 원본 그대로 iframe으로 표시 */
+.calc-frame {
+    flex: 1 1 auto;
+    width: 100%;
+    min-height: 0;
+    border: 0;
+    border-radius: 4px;
+    background: #1c1e21;
+}

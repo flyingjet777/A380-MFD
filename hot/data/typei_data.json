@@ -1,0 +1,631 @@
+{
+ "al": [
+  {
+   "oat": "-3 °C and above",
+   "oatF": "27 °F and above",
+   "range": [
+    -3.0,
+    null
+   ],
+   "cells": {
+    "FZFG": [
+     "0:11",
+     "0:17"
+    ],
+    "SN_FZFG": [
+     "0:06",
+     "0:11"
+    ],
+    "VLSN": [
+     "0:18",
+     "0:22"
+    ],
+    "LSN": [
+     "0:11",
+     "0:18"
+    ],
+    "MSN": [
+     "0:06",
+     "0:11"
+    ],
+    "FZDZ": [
+     "0:09",
+     "0:13"
+    ],
+    "LFZRA": [
+     "0:02",
+     "0:05"
+    ],
+    "MSN_RA": [
+     "0:02",
+     "0:02"
+    ],
+    "RCSW": [
+     "0:02",
+     "0:05"
+    ]
+   }
+  },
+  {
+   "oat": "below -3 to -6 °C",
+   "oatF": "below 27 to 21 °F",
+   "range": [
+    -6.0,
+    -3.0
+   ],
+   "cells": {
+    "FZFG": [
+     "0:08",
+     "0:13"
+    ],
+    "SN_FZFG": [
+     "0:05",
+     "0:08"
+    ],
+    "VLSN": [
+     "0:14",
+     "0:17"
+    ],
+    "LSN": [
+     "0:08",
+     "0:14"
+    ],
+    "MSN": [
+     "0:05",
+     "0:08"
+    ],
+    "FZDZ": [
+     "0:05",
+     "0:09"
+    ],
+    "LFZRA": [
+     "0:02",
+     "0:05"
+    ]
+   }
+  },
+  {
+   "oat": "below -6 to -10 °C",
+   "oatF": "below 21 to 14 °F",
+   "range": [
+    -10.0,
+    -6.0
+   ],
+   "cells": {
+    "FZFG": [
+     "0:06",
+     "0:10"
+    ],
+    "SN_FZFG": [
+     "0:04",
+     "0:06"
+    ],
+    "VLSN": [
+     "0:11",
+     "0:13"
+    ],
+    "LSN": [
+     "0:06",
+     "0:11"
+    ],
+    "MSN": [
+     "0:04",
+     "0:06"
+    ],
+    "FZDZ": [
+     "0:04",
+     "0:07"
+    ],
+    "LFZRA": [
+     "0:02",
+     "0:05"
+    ]
+   }
+  },
+  {
+   "oat": "below -10 °C",
+   "oatF": "below 14 °F",
+   "range": [
+    null,
+    -10.0
+   ],
+   "cells": {
+    "FZFG": [
+     "0:05",
+     "0:09"
+    ],
+    "SN_FZFG": [
+     "0:02",
+     "0:04"
+    ],
+    "VLSN": [
+     "0:07",
+     "0:08"
+    ],
+    "LSN": [
+     "0:04",
+     "0:07"
+    ],
+    "MSN": [
+     "0:02",
+     "0:04"
+    ]
+   }
+  }
+ ],
+ "comp": [
+  {
+   "oat": "-3 °C and above",
+   "oatF": "27 °F and above",
+   "range": [
+    -3.0,
+    null
+   ],
+   "cells": {
+    "FZFG": [
+     "0:09",
+     "0:16"
+    ],
+    "SN_FZFG": [
+     "0:03",
+     "0:06"
+    ],
+    "VLSN": [
+     "0:12",
+     "0:15"
+    ],
+    "LSN": [
+     "0:06",
+     "0:12"
+    ],
+    "MSN": [
+     "0:03",
+     "0:06"
+    ],
+    "FZDZ": [
+     "0:08",
+     "0:13"
+    ],
+    "LFZRA": [
+     "0:02",
+     "0:05"
+    ],
+    "MSN_RA": [
+     "0:01",
+     "0:01"
+    ],
+    "RCSW": [
+     "0:01",
+     "0:05"
+    ]
+   }
+  },
+  {
+   "oat": "below -3 to -6 °C",
+   "oatF": "below 27 to 21 °F",
+   "range": [
+    -6.0,
+    -3.0
+   ],
+   "cells": {
+    "FZFG": [
+     "0:06",
+     "0:08"
+    ],
+    "SN_FZFG": [
+     "0:02",
+     "0:05"
+    ],
+    "VLSN": [
+     "0:11",
+     "0:13"
+    ],
+    "LSN": [
+     "0:05",
+     "0:11"
+    ],
+    "MSN": [
+     "0:02",
+     "0:05"
+    ],
+    "FZDZ": [
+     "0:05",
+     "0:09"
+    ],
+    "LFZRA": [
+     "0:02",
+     "0:05"
+    ]
+   }
+  },
+  {
+   "oat": "below -6 to -10 °C",
+   "oatF": "below 21 to 14 °F",
+   "range": [
+    -10.0,
+    -6.0
+   ],
+   "cells": {
+    "FZFG": [
+     "0:04",
+     "0:08"
+    ],
+    "SN_FZFG": [
+     "0:02",
+     "0:05"
+    ],
+    "VLSN": [
+     "0:09",
+     "0:12"
+    ],
+    "LSN": [
+     "0:05",
+     "0:09"
+    ],
+    "MSN": [
+     "0:02",
+     "0:05"
+    ],
+    "FZDZ": [
+     "0:04",
+     "0:07"
+    ],
+    "LFZRA": [
+     "0:02",
+     "0:05"
+    ]
+   }
+  },
+  {
+   "oat": "below -10 °C",
+   "oatF": "below 14 °F",
+   "range": [
+    null,
+    -10.0
+   ],
+   "cells": {
+    "FZFG": [
+     "0:04",
+     "0:07"
+    ],
+    "SN_FZFG": [
+     "0:02",
+     "0:04"
+    ],
+    "VLSN": [
+     "0:07",
+     "0:08"
+    ],
+    "LSN": [
+     "0:04",
+     "0:07"
+    ],
+    "MSN": [
+     "0:02",
+     "0:04"
+    ]
+   }
+  }
+ ],
+ "alAdj": [
+  {
+   "oat": "-3 °C and above",
+   "oatF": "27 °F and above",
+   "range": [
+    -3.0,
+    null
+   ],
+   "cells": {
+    "FZFG": [
+     "0:08",
+     "0:13"
+    ],
+    "SN_FZFG": [
+     "0:05",
+     "0:08"
+    ],
+    "VLSN": [
+     "0:14",
+     "0:17"
+    ],
+    "LSN": [
+     "0:08",
+     "0:14"
+    ],
+    "MSN": [
+     "0:05",
+     "0:08"
+    ],
+    "FZDZ": [
+     "0:07",
+     "0:10"
+    ],
+    "LFZRA": [
+     "0:02",
+     "0:04"
+    ],
+    "MSN_RA": [
+     "0:02",
+     "0:02"
+    ],
+    "RCSW": [
+     "0:02",
+     "0:04"
+    ]
+   }
+  },
+  {
+   "oat": "below -3 to -6 °C",
+   "oatF": "below 27 to 21 °F",
+   "range": [
+    -6.0,
+    -3.0
+   ],
+   "cells": {
+    "FZFG": [
+     "0:06",
+     "0:10"
+    ],
+    "SN_FZFG": [
+     "0:04",
+     "0:06"
+    ],
+    "VLSN": [
+     "0:11",
+     "0:13"
+    ],
+    "LSN": [
+     "0:06",
+     "0:11"
+    ],
+    "MSN": [
+     "0:04",
+     "0:06"
+    ],
+    "FZDZ": [
+     "0:04",
+     "0:07"
+    ],
+    "LFZRA": [
+     "0:02",
+     "0:04"
+    ]
+   }
+  },
+  {
+   "oat": "below -6 to -10 °C",
+   "oatF": "below 21 to 14 °F",
+   "range": [
+    -10.0,
+    -6.0
+   ],
+   "cells": {
+    "FZFG": [
+     "0:05",
+     "0:08"
+    ],
+    "SN_FZFG": [
+     "0:03",
+     "0:05"
+    ],
+    "VLSN": [
+     "0:08",
+     "0:10"
+    ],
+    "LSN": [
+     "0:05",
+     "0:08"
+    ],
+    "MSN": [
+     "0:03",
+     "0:05"
+    ],
+    "FZDZ": [
+     "0:03",
+     "0:05"
+    ],
+    "LFZRA": [
+     "0:02",
+     "0:04"
+    ]
+   }
+  },
+  {
+   "oat": "below -10 °C",
+   "oatF": "below 14 °F",
+   "range": [
+    null,
+    -10.0
+   ],
+   "cells": {
+    "FZFG": [
+     "0:04",
+     "0:07"
+    ],
+    "SN_FZFG": [
+     "0:02",
+     "0:03"
+    ],
+    "VLSN": [
+     "0:05",
+     "0:06"
+    ],
+    "LSN": [
+     "0:03",
+     "0:05"
+    ],
+    "MSN": [
+     "0:02",
+     "0:03"
+    ]
+   }
+  }
+ ],
+ "compAdj": [
+  {
+   "oat": "-3 °C and above",
+   "oatF": "27 °F and above",
+   "range": [
+    -3.0,
+    null
+   ],
+   "cells": {
+    "FZFG": [
+     "0:07",
+     "0:12"
+    ],
+    "SN_FZFG": [
+     "0:02",
+     "0:05"
+    ],
+    "VLSN": [
+     "0:09",
+     "0:11"
+    ],
+    "LSN": [
+     "0:05",
+     "0:09"
+    ],
+    "MSN": [
+     "0:02",
+     "0:05"
+    ],
+    "FZDZ": [
+     "0:06",
+     "0:10"
+    ],
+    "LFZRA": [
+     "0:02",
+     "0:04"
+    ],
+    "MSN_RA": [
+     "0:01",
+     "0:01"
+    ],
+    "RCSW": [
+     "0:01",
+     "0:04"
+    ]
+   }
+  },
+  {
+   "oat": "below -3 to -6 °C",
+   "oatF": "below 27 to 21 °F",
+   "range": [
+    -6.0,
+    -3.0
+   ],
+   "cells": {
+    "FZFG": [
+     "0:05",
+     "0:06"
+    ],
+    "SN_FZFG": [
+     "0:02",
+     "0:04"
+    ],
+    "VLSN": [
+     "0:08",
+     "0:10"
+    ],
+    "LSN": [
+     "0:04",
+     "0:08"
+    ],
+    "MSN": [
+     "0:02",
+     "0:04"
+    ],
+    "FZDZ": [
+     "0:04",
+     "0:07"
+    ],
+    "LFZRA": [
+     "0:02",
+     "0:04"
+    ]
+   }
+  },
+  {
+   "oat": "below -6 to -10 °C",
+   "oatF": "below 21 to 14 °F",
+   "range": [
+    -10.0,
+    -6.0
+   ],
+   "cells": {
+    "FZFG": [
+     "0:03",
+     "0:06"
+    ],
+    "SN_FZFG": [
+     "0:02",
+     "0:04"
+    ],
+    "VLSN": [
+     "0:07",
+     "0:09"
+    ],
+    "LSN": [
+     "0:04",
+     "0:07"
+    ],
+    "MSN": [
+     "0:02",
+     "0:04"
+    ],
+    "FZDZ": [
+     "0:03",
+     "0:05"
+    ],
+    "LFZRA": [
+     "0:02",
+     "0:04"
+    ]
+   }
+  },
+  {
+   "oat": "below -10 °C",
+   "oatF": "below 14 °F",
+   "range": [
+    null,
+    -10.0
+   ],
+   "cells": {
+    "FZFG": [
+     "0:03",
+     "0:05"
+    ],
+    "SN_FZFG": [
+     "0:02",
+     "0:03"
+    ],
+    "VLSN": [
+     "0:05",
+     "0:06"
+    ],
+    "LSN": [
+     "0:03",
+     "0:05"
+    ],
+    "MSN": [
+     "0:02",
+     "0:03"
+    ]
+   }
+  }
+ ],
+ "notes": {
+  "1": "To use the holdover times in this table, ensure that the fluid and dilution being used is listed in the Type I Fluids Tested for Anti-Icing Performance and Aerodynamic Acceptance table (Table 58). Any restrictions on the use of the fluid have to be identified and applied.",
+  "2": "Type I fluid / water mixture must be selected so that the freezing point of the mixture is at least 10 °C (18 °F) below outside air temperature.",
+  "3": "Ensure that the lowest operational use temperature (LOUT) is respected.",
+  "4": "Freezing mist is best confirmed by observation. It is never reported by METAR; however, it can occur when mist is present at 0 °C (32 °F) and below.",
+  "5": "Use freezing fog holdover times in conditions of ice crystals mixed with freezing fog or freezing mist.",
+  "6": "To determine snowfall intensity, the Snowfall Intensities as a Function of Prevailing Visibility table (Table 57) is required. No holdover times exist if the reported visibility correlates to a “heavy” precipitation intensity.",
+  "7": "Use snow holdover times in conditions of very light, light, or moderate snow mixed with ice crystals.",
+  "8": "Includes light, moderate and heavy freezing drizzle. Use light freezing rain holdover times if positive identification of freezing drizzle is not possible.",
+  "9": "These holdover times apply to conditions of “moderate” precipitation intensity. In cases of very light or light snow mixed with light rain or drizzle, use light freezing rain holdover times. The Snowfall Intensities as a Function of Prevailing Visibility table (Table 57) is required to confirm the precipitation intensity. No holdover times exist if the reported visibility correlates to a “heavy” precipitation intensity.",
+  "10": "No holdover time guidelines exist for this condition for 0 °C (32 °F) and below.",
+  "11": "Heavy snow, ice pellets, moderate and heavy freezing rain, small hail and hail."
+ }
+}
